@@ -1,0 +1,23 @@
+{
+  "name": "@dropecho/interop",
+  "version": "0.0.1",
+  "description": "A library with interop / utils used by other dropecho libs.",
+  "author": "vantreeseba <vantreeseba@gmail.com>",
+  "repository": "github:dropecho/interop",
+  "main": "dist/js/dropecho.interop.js",
+  "files": [
+    "dist/js/dropecho.interop.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "haxelib run munit t",
+    "build": "haxe build.hxml",
+    "build-changelog": "conventional-changelog -i CHANGELOG.md -s -r 0",
+    "bump": "npm run build-changelog",
+    "haxe:submit": "haxelib run submit",
+    "postversion": "git add . && git commit -m 'version' && npm run haxe:submit && npm publish"
+  }
+}

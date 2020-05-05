@@ -1,0 +1,13 @@
+-cp src
+--macro include('', true, null, ['src'])
+
+--each
+
+## JS
+# DEFINES / MACROS
+-D dce=no
+-D js-es=6
+-D source-map-content
+
+# OUTPUT 
+-js dist/js/dropecho.interop.js 

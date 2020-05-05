@@ -1,0 +1,18 @@
+-cp src
+-cp test
+-lib dropecho.ds 
+-lib munit
+-lib hamcrest
+
+-main TestMain
+-cs artifacts/cs_test/
+
+--next
+-cp src
+-cp test
+-lib dropecho.ds 
+-lib munit
+-lib hamcrest
+
+-main TestMain
+-neko artifacts/test/neko_test.n

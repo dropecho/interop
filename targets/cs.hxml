@@ -1,0 +1,5 @@
+-cp src
+
+-D no-root
+--macro include('', true, null, ['src'])
+-cs dist/cs/dropecho.interop
