@@ -1,7 +1,7 @@
-package utils;
+package interop;
 
 import massive.munit.Assert;
-import dropecho.utils.Extender;
+import dropecho.interop.Extender;
 import haxe.Json;
 import haxe.DynamicAccess;
 
@@ -200,7 +200,7 @@ class ExtenderTest {
 		trace(expected);
 		trace(out);
 		trace(expected.map.get('x'));
-    trace(out.map.get('x'));
+		trace(out.map.get('x'));
 
 		// checkEquality(expected, out);
 	}

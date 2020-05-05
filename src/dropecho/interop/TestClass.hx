@@ -1,4 +1,4 @@
-package dropecho.utils;
+package dropecho.interop;
 
 @:struct
 @:expose('TestClassConfig')

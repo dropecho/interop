@@ -1,4 +1,4 @@
-package dropecho.utils;
+package dropecho.interop;
 
 @:expose("TestMap")
 class TestMap {

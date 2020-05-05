@@ -1,4 +1,4 @@
-package dropecho.utils;
+package dropecho.interop;
 
 import haxe.Constraints;
 import haxe.ds.StringMap;

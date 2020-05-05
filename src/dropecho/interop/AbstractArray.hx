@@ -1,4 +1,4 @@
-package dropecho.utils;
+package dropecho.interop;
 
 @:forward(iterator)
 abstract AbstractArray<V>(Array<V>) from Array<V> to Array<V> {
