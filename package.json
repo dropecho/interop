@@ -18,6 +18,6 @@
     "build-changelog": "conventional-changelog -i CHANGELOG.md -s -r 0",
     "bump": "npm run build-changelog",
     "haxe:submit": "haxelib run submit",
-    "postversion": "git add . && git commit -m 'version' && npm run haxe:submit && npm publish"
+    "postversion": "git add . && git commit -m 'version' && npm run haxe:submit"
   }
 }
