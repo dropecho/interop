@@ -7,8 +7,8 @@
 	"contributors": [
 		"vantreeseba"
 	],
-	"version": "0.0.1",
-	"releasenote": "Initial commit",
+	"version": "0.1.0",
+	"releasenote": "REFACTOR: Handle base types more strongly for c#",
 	"tags": [
 		"example"
 	],
