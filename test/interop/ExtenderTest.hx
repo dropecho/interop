@@ -10,7 +10,7 @@ class ExClassTest {
 	public var y:Int = 1;
 
 	public function new(?opts:Dynamic = null) {
-		Extender.extend(this, opts);
+		Extender.defaults(this, opts);
 	}
 }
 
@@ -50,31 +50,31 @@ class ExtenderTest {
 
 	@Test
 	public function test_extender_should_set_simple_field_on_base() {
-		Extender.extend(base, ex);
+		Extender.defaults(base, ex);
 		Assert.areEqual(1, base.x);
 	}
 
 	@Test
 	public function test_extender_should_set_object_field_on_base() {
-		Extender.extend(base, ex);
+		Extender.defaults(base, ex);
 		Assert.areEqual(1, base.y.z);
 	}
 
 	@Test
 	public function test_extender_should_add_simple_field_on_base() {
-		Extender.extend(base, ex);
+		Extender.defaults(base, ex);
 		Assert.areEqual(1, base.add);
 	}
 
 	@Test
 	public function test_extender_should_not_overwrite_existing_field_on_subobject_when_extension_does_not_have_field() {
-		Extender.extend(base, ex);
+		Extender.defaults(base, ex);
 		Assert.areEqual(0, base.a.b);
 	}
 
 	@Test
 	public function test_extender_should_add_non_existing_field_on_subobject_when_extension_has_field() {
-		Extender.extend(base, ex);
+		Extender.defaults(base, ex);
 		Assert.areEqual(0, base.a.c);
 	}
 
@@ -82,7 +82,7 @@ class ExtenderTest {
 	public function test_extender_should_handle_null_extension_object() {
 		var good = false;
 		try {
-			Extender.extend(base, null);
+			Extender.defaults(base, null);
 			good = true;
 		} catch (e:Dynamic) {
 			good = false;
@@ -95,11 +95,11 @@ class ExtenderTest {
 	public function test_extender_should_handle_null_base_object() {
 		var good = false;
 		try {
-			Extender.extend(null, ex);
-			good = true;
+			Extender.defaults(null, ex);
+			good = false;
 		} catch (e:Dynamic) {
 			trace("exception", e);
-			good = false;
+			good = true;
 		}
 
 		Assert.isTrue(good);
@@ -107,7 +107,8 @@ class ExtenderTest {
 
 	@Test
 	public function test_extender_should_extend_all_for_empty_base_object() {
-		var empty = Extender.extend({}, ex);
+		var base:Dynamic = {};
+		var empty = Extender.defaults(base, ex);
 
 		Assert.areEqual(ex.x, empty.x);
 		// Assert.areEqual(ex.y, empty.y);
@@ -118,7 +119,9 @@ class ExtenderTest {
 
 	@Test
 	public function test_extender_should_extend_by_multiple_extensions() {
-		var empty = Extender.extend({}, [{x: 1}, {y: 2}]);
+		var base:Dynamic = {};
+		var ex:Array<Dynamic> = [{x: 1}, {y: 2}];
+		var empty = Extender.defaults(base, ex);
 
 		Assert.areEqual(1, empty.x);
 		Assert.areEqual(2, empty.y);
@@ -126,7 +129,9 @@ class ExtenderTest {
 
 	@Test
 	public function test_extender_should_deal_with_arrays() {
-		var empty = Extender.extend({}, [{}, complicated]);
+		var base:Dynamic = {};
+		var ex:Array<Dynamic> = [{}, complicated];
+		var empty = Extender.defaults(base, ex);
 
 		Assert.areEqual(complicated.x, empty.x);
 		Assert.areEqual(complicated.y, empty.y);
@@ -171,9 +176,8 @@ class ExtenderTest {
 			sub: null
 		};
 
-		var out = Extender.extend({}, expected);
-
-		// checkEquality(expected, out);
+		var base:Dynamic = {};
+		var out = Extender.defaults(base, expected);
 	}
 
 	@Test
@@ -195,7 +199,8 @@ class ExtenderTest {
 			}
 		};
 
-		var out = Extender.extend({}, expected);
+		var base:Dynamic = {};
+		var out = Extender.defaults(base, expected);
 
 		trace(expected);
 		trace(out);
