@@ -1,5 +1,8 @@
 package dropecho.interop;
 
+import haxe.macro.Expr.Error;
+
+using Lambda;
 using StringTools;
 
 @:expose('Extender')
@@ -16,6 +19,9 @@ class Extender {
 	}
 
 	public static function defaults<T>(base:T, ?extension:Any):T {
+		if (base == null) {
+			throw "Base cannot be null.";
+		}
 		if (extension == null) {
 			return base;
 		}
@@ -31,13 +37,33 @@ class Extender {
 		for (ex in extensions) {
 			var fields = Reflect.fields(ex);
 			var exType = Type.getClass(ex);
-			var typeFields = exType != null ? Type.getInstanceFields(exType).map(f -> f.split('_')[1]) : [];
+			var typeFields = exType != null ? Type.getInstanceFields(exType).map(f -> {
+				if (f.startsWith("get_") || f.startsWith("set_")) {
+					var parts = f.split('_');
+					parts.shift();
+					return parts.join('_');
+				}
+				return f;
+			}) : [];
 			fields = fields.length == 0 ? typeFields : fields;
 
+			var baseFields = new Array<String>();
+			var baseClass = Type.getClass(base);
+
+			if (baseClass != null) {
+				baseFields = Type.getInstanceFields(baseClass);
+			}
+
 			for (ff in fields) {
+				#if cs
+				// If base is strong typed, and does not have field, skip it for C#.
+				if (baseClass != null && baseFields.find(f -> f == ff) == null) {
+					continue;
+				}
+				#end
+
 				var exField = Reflect.field(ex, ff);
 				var baseField = Reflect.field(base, ff);
-
 				var bfIsArray = isArray(baseField);
 				var bfIsMap = isMap(baseField);
 				var bfIsObject = !bfIsArray && !bfIsMap && isObject(baseField);
@@ -55,7 +81,11 @@ class Extender {
 				} else if (bfIsObject) {
 					defaults(baseField, exField);
 				} else {
-					Reflect.setField(base, ff, exField);
+					try {
+						Reflect.setField(base, ff, exField);
+					} catch (ex:Dynamic) {
+						trace("FAILED SETTING PROP: " + ff + " error: " + ex);
+					}
 				}
 			}
 		}
