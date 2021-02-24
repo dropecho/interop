@@ -5,14 +5,15 @@ package dropecho.interop;
 class TestClassConfig {
 	public var i:Int;
 	public var f:Float;
-  public function new(){}
+
+	public function new(){};
 }
 
 @:expose('TestThisClass')
 class TestThisClass {
 	public var i:Int;
 	public var f:Float;
-	public var m:AbstractMap<Int> = new Map<String, Int>();
+	// public var m:AbstractMap<String, Int> = new Map<String, Int>();
 	public var a:Array<Int> = new Array<Int>();
 	public var subarr:AbstractArray<TestClassConfig> = new AbstractArray<TestClassConfig>();
 
@@ -27,7 +28,7 @@ class TestThisClass {
 
 class TestAnotherClass {
 	public static function doSomething(?opts:Dynamic = null) {
-    var ex:Array<Dynamic> =  [{i: 1}, {f: 2}, opts];
+		var ex:Array<Dynamic> = [{i: 1}, {f: 2}, opts];
 		var params = Extender.defaults(new TestClassConfig(), ex);
 	}
 }

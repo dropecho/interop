@@ -14,6 +14,11 @@
   "license": "MIT",
   "scripts": {
     "test": "haxelib run munit t",
+    "native-test": "npm run build && npm run native-test-cs",
+    "native-test-cs": "npm run native-test-cs:copy && npm run native-test-cs:build && npm run native-test-cs:run",
+    "native-test-cs:copy": "cp dist/cs/dropecho.interop/bin/dropecho.interop.dll lang_tests/cs/",
+    "native-test-cs:build": "cd lang_tests/cs && mcs -r:dropecho.interop.dll Main.cs",
+    "native-test-cs:run": "cd lang_tests/cs && ./Main.exe",
     "build": "haxe build.hxml",
     "build-changelog": "conventional-changelog -i CHANGELOG.md -s -r 0",
     "bump": "npm run build-changelog",

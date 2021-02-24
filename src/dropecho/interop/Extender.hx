@@ -1,7 +1,5 @@
 package dropecho.interop;
 
-import haxe.macro.Expr.Error;
-
 using Lambda;
 using StringTools;
 
@@ -20,6 +18,7 @@ class Extender {
 
 	public static function defaults<T>(base:T, ?extension:Any):T {
 		if (base == null) {
+			trace('extender base is null', base == null);
 			throw "Base cannot be null.";
 		}
 		if (extension == null) {
@@ -74,7 +73,7 @@ class Extender {
 						(cast baseField).push(v);
 					}
 				} else if (bfIsMap) {
-					var copy = AbstractMap.fromAny(exField);
+					var copy = AbstractMap.fromMap(exField);
 					for (k => v in copy.keyValueIterator()) {
 						(cast baseField).set(k, v);
 					}

@@ -1,38 +1,39 @@
 package dropecho.interop;
 
+import js.Syntax;
 import haxe.Constraints;
 import haxe.ds.StringMap;
 import haxe.ds.ObjectMap;
 
 using StringTools;
 
-@:forward(set, get, exists, keyValueIterator)
-abstract AbstractMap<T>(StringMap<T>) from StringMap<T> to StringMap<T> {
-	public function new<T>(?s:StringMap<T>) {
-		this = s;
+@:forward
+abstract AbstractMap<K, V>(js.lib.Map<K, V>) from js.lib.Map<K, V> to js.lib.Map<K, V> {
+	public function new<K, V>(?s:js.lib.Map<K, V>) {
+		if (s != null) {
+			this = s;
+		} else {
+			this = new js.lib.Map<K, V>();
+		}
 	}
 
 	@:from
-	public static function jsMap<T>(d:js.lib.Map<Any, T>) {
-		var map = new StringMap<T>();
-		d.forEach((v, k, m) -> {
-			map.set(k, v);
-		});
-		return new AbstractMap(map);
-	}
+	public static function fromMap<K, V>(map:Map<K, V>):AbstractMap<K, V> {
+		var abs = new AbstractMap<K, V>();
 
-	@:from
-	public static function fromAny(d:Any) {
-		if (isJsMap(d)) {
-			return jsMap(d);
+		for (k => v in map) {
+			abs.set(k, v);
 		}
 
-		var fields = Reflect.fields(d);
-		var map = [for (f in fields) f => Reflect.field(d, f)];
-		return new AbstractMap(map);
+		return abs;
 	}
 
-	public static function isJsMap(value:Any):Bool {
-		return Std.is(value, js.lib.Map);
+	public function exists(key:K):Bool {
+		return this.has(key);
+	}
+
+	@:arrayAccess
+	public function get(key:K):V {
+		return Syntax.code('{0}[{1}]', this, key);
 	}
 }

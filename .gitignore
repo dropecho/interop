@@ -3,3 +3,5 @@ build
 report
 artifacts
 dist
+lang_tests/**/*.exe
+lang_tests/**/*.dll
