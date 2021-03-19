@@ -98,7 +98,7 @@ class ExtenderTest {
 			Extender.defaults(null, ex);
 			good = false;
 		} catch (e:Dynamic) {
-			trace("exception", e);
+			// trace("exception", e);
 			good = true;
 		}
 
@@ -202,10 +202,10 @@ class ExtenderTest {
 		var base:Dynamic = {};
 		var out = Extender.defaults(base, expected);
 
-		trace(expected);
-		trace(out);
-		trace(expected.map.get('x'));
-		trace(out.map.get('x'));
+		// trace(expected);
+		// trace(out);
+		// trace(expected.map.get('x'));
+		// trace(out.map.get('x'));
 
 		// checkEquality(expected, out);
 	}

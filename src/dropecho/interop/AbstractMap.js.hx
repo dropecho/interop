@@ -1,15 +1,11 @@
 package dropecho.interop;
 
+import haxe.Constraints.IMap;
 import js.Syntax;
-import haxe.Constraints;
-import haxe.ds.StringMap;
-import haxe.ds.ObjectMap;
-
-using StringTools;
 
 @:forward
 abstract AbstractMap<K, V>(js.lib.Map<K, V>) from js.lib.Map<K, V> to js.lib.Map<K, V> {
-	public function new<K, V>(?s:js.lib.Map<K, V>) {
+	public function new(?s:js.lib.Map<K, V>) {
 		if (s != null) {
 			this = s;
 		} else {
@@ -19,13 +15,16 @@ abstract AbstractMap<K, V>(js.lib.Map<K, V>) from js.lib.Map<K, V> to js.lib.Map
 
 	@:from
 	public static function fromMap<K, V>(map:Map<K, V>):AbstractMap<K, V> {
-		var abs = new AbstractMap<K, V>();
+		return new AbstractMap<K, V>(new js.lib.Map(map));
+	}
 
-		for (k => v in map) {
-			abs.set(k, v);
-		}
+	@:from
+	public inline static function fromIMap<K, V>(map:IMap<K, V>):AbstractMap<K, V> {
+		return new AbstractMap<K, V>(new js.lib.Map(map));
+	}
 
-		return abs;
+	public function remove(key:K):Bool {
+		return this.delete(key);
 	}
 
 	public function exists(key:K):Bool {
@@ -35,5 +34,10 @@ abstract AbstractMap<K, V>(js.lib.Map<K, V>) from js.lib.Map<K, V> to js.lib.Map
 	@:arrayAccess
 	public function get(key:K):V {
 		return Syntax.code('{0}[{1}]', this, key);
+	}
+
+	@:arrayAccess
+	public function set(key:K, value:V):V {
+		return Syntax.code('{0}[{1}] = {2}', this, key, value);
 	}
 }

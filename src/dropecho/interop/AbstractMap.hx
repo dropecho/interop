@@ -1,33 +1,45 @@
 package dropecho.interop;
 
 import haxe.Constraints;
+import haxe.ds.ObjectMap;
 import haxe.ds.StringMap;
 
 using StringTools;
 
-@:forward(set, get, exists)
-abstract AbstractMap<V>(StringMap<V>) from StringMap<V> to StringMap<V> {
-	public function new<V>(?s:StringMap<V>) {
+@:forward
+abstract AbstractMap<K, V>(IMap<K, V>) from IMap<K, V> to IMap<K, V> {
+	public function new(?s:IMap<K, V>) {
 		if (s != null) {
 			this = s;
 		} else {
-			this = new StringMap<V>();
+			this = null;
 		}
 	}
 
-	public function keyValueIterator() {
+	public inline function keyValueIterator() {
 		return this.keyValueIterator();
 	}
 
 	@:from
-	public static function fromMap<V>(map:StringMap<V>):AbstractMap<V> {
-		return new AbstractMap<V>(map);
+	public inline static function fromMap<K, V>(map:IMap<K, V>):AbstractMap<K, V> {
+		return new AbstractMap<K, V>(map);
+	}
+
+	@:arrayAccess
+	public inline function get(key:K):V {
+		return this.get(key);
+	}
+
+	@:arrayAccess
+	public inline function set(k:K, v:V):V {
+		this.set(k, v);
+		return v;
 	}
 
 	@:from
 	public static function fromAny<V>(d:Any) {
 		var fields = Type.getInstanceFields(Type.getClass(d));
-		var map = new StringMap<V>();
+		var map = new Map<String, V>();
 
 		for (f in fields) {
 			var val = Reflect.field(d, f);

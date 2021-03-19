@@ -1,14 +1,9 @@
 package dropecho.interop;
 
 import haxe.Constraints;
-import haxe.ds.IntMap;
-import haxe.ds.StringMap;
 import cs.system.collections.generic.IDictionary_2;
 import cs.system.collections.generic.Dictionary_2;
-import cs.system.collections.Hashtable;
 import cs.system.collections.IEnumerator;
-
-using StringTools;
 
 @:nativeGen
 class CSDictValueIterator<K, V> {
@@ -82,6 +77,8 @@ class CSDictKeyValueIterator<K, V> {
 	}
 }
 
+@:forward
+@:nativeGen
 abstract AbstractMap<K, V>(IDictionary_2<K, V>) from IDictionary_2<K, V> to IDictionary_2<K, V> {
 	public function new(s:IDictionary_2<K, V> = null) {
 		if (s != null) {
@@ -91,39 +88,50 @@ abstract AbstractMap<K, V>(IDictionary_2<K, V>) from IDictionary_2<K, V> to IDic
 		}
 	}
 
-	@:from
-	public static function fromMap<K, V>(map:Map<K, V>):AbstractMap<K, V> {
-		var abs = new AbstractMap<K, V>();
-
-		for (k => v in map) {
-			abs.set(k, v);
+	@:from // TODO: Figure out why this is broken, fails on runtime cs stuff.
+	public static function fromMap<K, V>(map:IMap<K, V>):AbstractMap<K, V> {
+		var abs = new Dictionary_2<K, V>();
+		var keys:Iterator<K> = map.keys();
+		for (k in keys) {
+			var key:K = k;
+			var value:V = map.get(key);
+			abs.set_Item(key, value);
 		}
-
 		return abs;
 	}
 
-	public function iterator() {
+	public inline function iterator() {
 		return new CSDictValueIterator<K, V>(this);
 	}
 
-	public function keys() {
+	public inline function keys() {
 		return new CSDictKeyIterator<K, V>(this);
 	}
 
-	public function keyValueIterator() {
+	public inline function keyValueIterator() {
 		return new CSDictKeyValueIterator<K, V>(this);
 	}
 
-	public function set(key:K, value:V) {
-		this.Add(key, value);
-	}
-
-	public function exists(key:K):Bool {
+	public inline function exists(key:K):Bool {
 		return this.ContainsKey(key);
 	}
 
-	@:op([])
-	public function get(key:K):V {
+	public inline function remove(key:K):Bool {
+		var exists = exists(key);
+		this.Remove(key);
+		return exists;
+	}
+
+	@:arrayAccess
+	public inline function get(key:K):V {
+		if (!this.ContainsKey(key)) {
+			throw 'No key $key found in dictionary, try using .exists(key) to check first.';
+		}
 		return this.get_Item(key);
+	}
+
+	@:arrayAccess
+	public inline function set(key:K, value:V) {
+		this.set_Item(key, value);
 	}
 }

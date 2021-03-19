@@ -10,6 +10,20 @@
 --next
 -cp src
 -cp test
+-lib dropecho.ds
+-lib munit
+-lib hamcrest
+-lib hxnodejs
+
+# -D nodejs
+
+-main TestMain
+-js artifacts/js_test/
+
+
+--next
+-cp src
+-cp test
 -lib dropecho.ds 
 -lib munit
 -lib hamcrest

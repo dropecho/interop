@@ -18,7 +18,6 @@ class Extender {
 
 	public static function defaults<T>(base:T, ?extension:Any):T {
 		if (base == null) {
-			trace('extender base is null', base == null);
 			throw "Base cannot be null.";
 		}
 		if (extension == null) {
