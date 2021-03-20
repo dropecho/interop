@@ -1,7 +1,6 @@
 package dropecho.interop;
 
 import haxe.Constraints.IMap;
-import js.Syntax;
 
 @:forward
 abstract AbstractMap<K, V>(js.lib.Map<K, V>) from js.lib.Map<K, V> to js.lib.Map<K, V> {
@@ -11,16 +10,6 @@ abstract AbstractMap<K, V>(js.lib.Map<K, V>) from js.lib.Map<K, V> to js.lib.Map
 		} else {
 			this = new js.lib.Map<K, V>();
 		}
-	}
-
-	@:from
-	public static function fromMap<K, V>(map:Map<K, V>):AbstractMap<K, V> {
-		return new AbstractMap<K, V>(new js.lib.Map(map));
-	}
-
-	@:from
-	public inline static function fromIMap<K, V>(map:IMap<K, V>):AbstractMap<K, V> {
-		return new AbstractMap<K, V>(new js.lib.Map(map));
 	}
 
 	public function remove(key:K):Bool {
@@ -33,11 +22,22 @@ abstract AbstractMap<K, V>(js.lib.Map<K, V>) from js.lib.Map<K, V> to js.lib.Map
 
 	@:arrayAccess
 	public function get(key:K):V {
-		return Syntax.code('{0}[{1}]', this, key);
+		return this.get(key);
 	}
 
 	@:arrayAccess
 	public function set(key:K, value:V):V {
-		return Syntax.code('{0}[{1}] = {2}', this, key, value);
+		this.set(key, value);
+		return value;
+	}
+
+	@:from
+	public static function fromMap<K, V>(map:Map<K, V>):AbstractMap<K, V> {
+		return new AbstractMap<K, V>(new js.lib.Map(map));
+	}
+
+	@:from
+	public inline static function fromIMap<K, V>(map:IMap<K, V>):AbstractMap<K, V> {
+		return new AbstractMap<K, V>(new js.lib.Map(map));
 	}
 }
