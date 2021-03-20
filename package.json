@@ -1,6 +1,6 @@
 {
   "name": "@dropecho/interop",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A library with interop / utils used by other dropecho libs.",
   "author": "vantreeseba <vantreeseba@gmail.com>",
   "repository": "github:dropecho/interop",
