@@ -7,8 +7,8 @@
 	"contributors": [
 		"vantreeseba"
 	],
-	"version": "0.2.0",
-	"releasenote": "Feat: Make C# abstract map directly cast to generically typed dict.",
+	"version": "0.3.0",
+	"releasenote": "More fixes on abstract map and array.",
 	"tags": [
 		"example"
 	],
