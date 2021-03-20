@@ -1,45 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using dropecho.interop;
+using dropecho.interop.test;
 
 public struct config {
   public int x;
   public int y;
 }
 
-public class Assert {
-  public static void areEqual(object actual, object expected) {
-    if (!actual.Equals(expected)) {
-      throw new Exception($"Expected {actual} to equal {expected}");
-    }
-  }
-}
-
 public class CSharpTests {
   static int Main(string[] args) {
-    DictionaryTest();
-    return 0;
+    int returnVal = 0;
+    try {
+      MapTests.RunTests();
+      ArrayTests.RunTests();
+    } catch (Exception e) {
+      Assert.ShortMessage(e);
+      returnVal = Assert.failedCount;
+    }
+
+    Assert.PrintResults();
+    return returnVal;
   }
-
-  static void DictionaryTest() {
-    var bar = new Dictionary<int, int>();
-    bar[1] = 1;
-
-    TestMap.createMap();
-    TestMap.map[1] = 1;
-    Assert.areEqual(TestMap.map.GetType(), bar.GetType());
-    Assert.areEqual(TestMap.map[1], bar[1]);
-
-    TestMap.createAbstractMap();
-    TestMap.map[1] = 1;
-    Assert.areEqual(TestMap.map.GetType(), bar.GetType());
-    Assert.areEqual(TestMap.map[1], bar[1]);
-
-    TestMap.createMapFromDictionary(bar);
-    Assert.areEqual(TestMap.map.GetType(), bar.GetType());
-    Assert.areEqual(TestMap.map[1], bar[1]);
-  }
-
 
   // var config = new {
   //   i = 2,
