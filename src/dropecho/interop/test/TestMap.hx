@@ -1,5 +1,8 @@
 package dropecho.interop.test;
 
+#if js
+import haxe.DynamicAccess;
+#end
 #if cs
 import cs.system.collections.generic.Dictionary_2;
 #end
@@ -17,6 +20,18 @@ class TestMap<T, U> {
 	#if cs
 	function createMapFromDictionary(dict:Dictionary_2<T, U>) {
 		map = dict;
+	}
+	#end
+
+	#if js
+	public var dyn:DynamicAccess<Dynamic>;
+
+	function createDynAcces() {
+		dyn = {};
+
+		dyn.set("test", 1);
+
+		return dyn;
 	}
 	#end
 }

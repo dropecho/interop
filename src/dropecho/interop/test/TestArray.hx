@@ -2,7 +2,7 @@ package dropecho.interop.test;
 
 #if cs
 import cs.system.collections.generic.IList_1;
-// import cs.system.collections.generic.List_1;
+import cs.system.collections.generic.List_1;
 #end
 
 @:expose("TestArray")
@@ -16,7 +16,7 @@ class TestArray<T> {
 	}
 
 	#if cs
-	function fromList(list:IList_1<T>) {
+	function fromList(list:List_1<T>) {
 		array = list;
 	}
 	#end

@@ -9,7 +9,17 @@ public static class Assert {
     totalCount++;
     if (!actual.Equals(expected)) {
       failedCount++;
-      throw new Exception($"Expected {actual} to equal {expected}");
+      throw new Exception($"Expected {actual} to equal {expected}.");
+    } else {
+      passedCount++;
+    }
+  }
+
+  public static void isNotNull(object actual) {
+    totalCount++;
+    if (actual == null) {
+      failedCount++;
+      throw new Exception($"Expected {actual} to not be null.");
     } else {
       passedCount++;
     }

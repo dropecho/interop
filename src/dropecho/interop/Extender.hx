@@ -3,7 +3,7 @@ package dropecho.interop;
 using Lambda;
 using StringTools;
 
-@:expose('Extender')
+// @:expose('Extender')
 class Extender {
 	public static function extendThis<T>(base:T, ?extension):Void {
 		if (extension == null) {
@@ -26,7 +26,7 @@ class Extender {
 
 		var extensions:Array<Any> = new Array<Any>();
 
-		if (Std.is(extension, Array)) {
+		if (Std.isOfType(extension, Array)) {
 			extensions = (cast extension).filter(x -> x != null);
 		} else {
 			extensions.push(extension);
@@ -101,12 +101,12 @@ class Extender {
 	}
 
 	private static function isArray(obj):Bool {
-		return Std.is(obj, Array);
+		return Std.isOfType(obj, Array);
 	}
 
 	private static function isMap(obj):Bool {
 		#if js
-		if (Std.is(obj, js.lib.Map)) {
+		if (Std.isOfType(obj, js.lib.Map)) {
 			return true;
 		}
 		#end

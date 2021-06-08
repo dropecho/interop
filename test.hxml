@@ -18,7 +18,7 @@
 # -D nodejs
 
 -main TestMain
--js artifacts/js_test/
+# -js artifacts/js_test/
 
 
 --next
@@ -29,4 +29,4 @@
 -lib hamcrest
 
 -main TestMain
--neko artifacts/test/neko_test.n
+# -neko artifacts/test/neko_test.n

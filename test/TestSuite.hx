@@ -1,5 +1,8 @@
 import massive.munit.TestSuite;
 
+import interop.AbstractMapTest;
+import interop.AbstractArrayTest;
+import interop.AbstractFuncTest;
 import interop.ExtenderTest;
 
 /**
@@ -12,6 +15,9 @@ class TestSuite extends massive.munit.TestSuite
 	{
 		super();
 
+		add(interop.AbstractMapTest);
+		add(interop.AbstractArrayTest);
+		add(interop.AbstractFuncTest);
 		add(interop.ExtenderTest);
 	}
 }

@@ -88,18 +88,6 @@ abstract AbstractMap<K, V>(IDictionary_2<K, V>) from IDictionary_2<K, V> to IDic
 		}
 	}
 
-	@:from // TODO: Figure out why this is broken, fails on runtime cs stuff.
-	public static function fromMap<K, V>(map:IMap<K, V>):AbstractMap<K, V> {
-		var abs = new Dictionary_2<K, V>();
-		var keys:Iterator<K> = map.keys();
-		for (k in keys) {
-			var key:K = k;
-			var value:V = map.get(key);
-			abs.set_Item(key, value);
-		}
-		return abs;
-	}
-
 	public inline function iterator() {
 		return new CSDictValueIterator<K, V>(this);
 	}
@@ -131,7 +119,22 @@ abstract AbstractMap<K, V>(IDictionary_2<K, V>) from IDictionary_2<K, V> to IDic
 	}
 
 	@:arrayAccess
-	public inline function set(key:K, value:V) {
+	public inline function set(key:K, value:V):V {
 		this.set_Item(key, value);
+		return value;
+	}
+
+	@:from // TODO: Figure out why this is broken, fails on runtime cs stuff.
+	public static inline function fromMap<K, V>(map:Map<K, V>):AbstractMap<K, V> {
+		return fromIMap(cast map);
+	}
+
+	@:from // TODO: Figure out why this is broken, fails on runtime cs stuff.
+	public static inline function fromIMap<K, V>(map:IMap<K, V>):AbstractMap<K, V> {
+		var abs = new AbstractMap<K, V>();
+		for (k => v in map.keyValueIterator()) {
+			abs.set_Item(k, v);
+		}
+		return abs;
 	}
 }
