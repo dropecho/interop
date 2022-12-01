@@ -43,13 +43,11 @@ class AbstractMapTest {
 		Assert.areEqual(m.get(obj), am[obj]);
 	}
 
-	// @Test
-	// public function fromAny() {
-	//   var sm = new StringMap<Int>();
-	//   sm.set("test", 1);
-	//
-	//   var am:AbstractMap<String, Int> = sm;
-	//   // Extender.defaults(base, ex);
-	//   Assert.areEqual(1, base.x);
-	// }
+	@Test
+	public function fromDynamic() {
+		var obj:Dynamic = {'test': 1};
+
+		var am:AbstractMap<String, Int> = obj;
+		Assert.areEqual(obj.test, am['test']);
+	}
 }

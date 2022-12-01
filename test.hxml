@@ -5,7 +5,7 @@
 -lib hamcrest
 
 -main TestMain
--cs artifacts/cs_test/
+# -cs artifacts/cs_test/
 
 --next
 -cp src
@@ -18,7 +18,7 @@
 # -D nodejs
 
 -main TestMain
-# -js artifacts/js_test/
+-js artifacts/js_test/
 
 
 --next

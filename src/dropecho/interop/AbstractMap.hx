@@ -64,4 +64,8 @@ abstract AbstractMap<K, V>(IMap<K, V>) {
 		this.set(k, v);
 		return v;
 	}
+
+	public inline function exists(k:K):Bool {
+		return this.exists(k);
+	}
 }

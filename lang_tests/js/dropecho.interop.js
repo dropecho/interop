@@ -1319,6 +1319,12 @@ class dropecho_interop_AbstractMap {
 		this1[Std.string(key)] = value;
 		return value;
 	}
+	static fromDynamic(map) {
+		return dropecho_interop_AbstractMap._new(map);
+	}
+	static fromDynamicAccess(map) {
+		return dropecho_interop_AbstractMap._new(map);
+	}
 	static fromMap(map) {
 		let abs = dropecho_interop_AbstractMap._new();
 		let _g = map.keyValueIterator();

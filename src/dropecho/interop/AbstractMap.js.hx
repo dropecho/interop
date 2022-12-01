@@ -13,11 +13,6 @@ abstract AbstractMap<K, V>(DynamicAccess<Dynamic>) {
 		}
 	}
 
-	// public inline function exists(key:K):Bool {
-	//   return false;
-	//   // return this && this.exists(key);
-	// }
-
 	@:arrayAccess
 	public inline function get(key:K):V {
 		return this.get(Std.string(key));
@@ -27,6 +22,16 @@ abstract AbstractMap<K, V>(DynamicAccess<Dynamic>) {
 	public inline function set(key:K, value:V):V {
 		this.set(Std.string(key), value);
 		return value;
+	}
+
+	@:from
+	public inline static function fromDynamic(map:Dynamic):AbstractMap<String, Dynamic> {
+		return fromDynamicAccess(map);
+	}
+
+	@:from
+	public inline static function fromDynamicAccess(map:DynamicAccess<Dynamic>):AbstractMap<String, Dynamic> {
+		return new AbstractMap<String, Dynamic>(map);
 	}
 
 	@:from
