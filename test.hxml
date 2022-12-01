@@ -1,6 +1,5 @@
 -cp src
 -cp test
--lib dropecho.ds 
 -lib munit
 -lib hamcrest
 
@@ -10,7 +9,6 @@
 --next
 -cp src
 -cp test
--lib dropecho.ds
 -lib munit
 -lib hamcrest
 -lib hxnodejs
@@ -19,7 +17,6 @@
 
 -main TestMain
 -js artifacts/js_test/
-
 
 --next
 -cp src
