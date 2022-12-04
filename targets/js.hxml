@@ -1,7 +1,4 @@
 # SETUP
--cp src
---macro include('', true, null, ['src'])
--D dce=no
 -D js-es=6
 -D source-map-content
 

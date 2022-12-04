@@ -13,6 +13,29 @@ abstract AbstractMap<K, V>(DynamicAccess<Dynamic>) {
 		}
 	}
 
+	@:from
+	public static inline function fromDynamic(map:Dynamic):AbstractMap<String, Dynamic> {
+		return fromDynamicAccess(map);
+	}
+
+	@:from
+	public static inline function fromDynamicAccess(map:DynamicAccess<Dynamic>):AbstractMap<String, Dynamic> {
+		return new AbstractMap<String, Dynamic>(map);
+	}
+
+	@:from
+	public static inline function fromMap<K, V>(map:Map<K, V>):AbstractMap<K, V> {
+		return fromIMap(cast map);
+	}
+
+	@:from public static inline function fromIMap<K, V>(map:IMap<K, V>):AbstractMap<K, V> {
+		var abs = new AbstractMap<K, V>();
+		for (k => v in map.keyValueIterator()) {
+			abs[k] = v;
+		}
+		return abs;
+	}
+
 	@:arrayAccess
 	public inline function get(key:K):V {
 		return this.get(Std.string(key));
@@ -24,27 +47,9 @@ abstract AbstractMap<K, V>(DynamicAccess<Dynamic>) {
 		return value;
 	}
 
-	@:from
-	public inline static function fromDynamic(map:Dynamic):AbstractMap<String, Dynamic> {
-		return fromDynamicAccess(map);
-	}
-
-	@:from
-	public inline static function fromDynamicAccess(map:DynamicAccess<Dynamic>):AbstractMap<String, Dynamic> {
-		return new AbstractMap<String, Dynamic>(map);
-	}
-
-	@:from
-	public inline static function fromMap<K, V>(map:Map<K, V>):AbstractMap<K, V> {
-		return fromIMap(cast map);
-	}
-
-	@:from
-	public inline static function fromIMap<K, V>(map:IMap<K, V>):AbstractMap<K, V> {
-		var abs = new AbstractMap<K, V>();
-		for (k => v in map.keyValueIterator()) {
-			abs[k] = v;
-		}
-		return abs;
-	}
+  public inline function clear() {
+    for(key in this.keys()) {
+      this.remove(key);
+    }
+  }
 }

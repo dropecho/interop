@@ -1,5 +1,7 @@
 {
-  "branches": ["master"],
+  "branches": [
+    "master"
+  ],
   "tagFormat": "${version}",
   "plugins": [
     [
@@ -7,7 +9,11 @@
       {
         "preset": "angular",
         "parserOpts": {
-          "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
+          "noteKeywords": [
+            "BREAKING CHANGE",
+            "BREAKING CHANGES",
+            "BREAKING"
+          ]
         }
       }
     ],
@@ -16,15 +22,21 @@
       {
         "preset": "angular",
         "parserOpts": {
-          "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
+          "noteKeywords": [
+            "BREAKING CHANGE",
+            "BREAKING CHANGES",
+            "BREAKING"
+          ]
         },
         "writerOpts": {
-          "commitsSort": ["subject", "scope"]
+          "commitsSort": [
+            "subject",
+            "scope"
+          ]
         }
       }
     ],
     "@semantic-release/changelog",
-    "@semantic-release/npm",
     [
       "semantic-release-haxelib",
       {

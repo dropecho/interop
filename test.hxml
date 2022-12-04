@@ -2,21 +2,19 @@
 -cp test
 -lib munit
 -lib hamcrest
+-lib hxnodejs
 
 -main TestMain
-# -cs artifacts/cs_test/
+-js artifacts/js_test/
 
 --next
 -cp src
 -cp test
 -lib munit
 -lib hamcrest
--lib hxnodejs
-
-# -D nodejs
 
 -main TestMain
--js artifacts/js_test/
+-cs artifacts/cs_test/
 
 --next
 -cp src

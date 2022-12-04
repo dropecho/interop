@@ -44,10 +44,36 @@ class AbstractMapTest {
 	}
 
 	@Test
+	public function fromMap() {
+		var m = ["test" => 1];
+
+		var am:AbstractMap<String, Int> = m;
+		Assert.areEqual(m.get("test"), am["test"]);
+	}
+
+	@Test
+	public function fromNestedMap() {
+		var inner:AbstractMap<String, Int> = ["bar" => 1];
+		var m = ["test" => inner];
+
+		var am:AbstractMap<String, AbstractMap<String, Int>> = m;
+		Assert.areEqual(m.get("test"), am["test"]);
+	}
+
+//   @Test
+//   public function fromNestedMap2() {
+//     var m = ["test" => ["bar" => 1]];
+//     var am:AbstractMap<String, AbstractMap<String, Int>> = m;
+//     Assert.areEqual(m.get("test"), am.get("test"));
+//   }
+
+	#if js
+	@Test
 	public function fromDynamic() {
 		var obj:Dynamic = {'test': 1};
 
 		var am:AbstractMap<String, Int> = obj;
 		Assert.areEqual(obj.test, am['test']);
 	}
+	#end
 }

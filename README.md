@@ -11,10 +11,14 @@ For example:
 
 #### AbstractArray
 
-in C# acts to a native array.
+in C# acts as a List<T>.
 in JS acts as a native array.
 
 #### AbstractMap
 
 in C# acts as a native dictionary<K,V>.
 in JS acts as a native object. (ref by obj[key])
+
+#### AbstractFunc
+in C# will convert to action_X or func_X where X is # of inputs/type params.
+in JS is a function.

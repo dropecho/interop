@@ -110,6 +110,10 @@ abstract AbstractMap<K, V>(IDictionary_2<K, V>) from IDictionary_2<K, V> to IDic
 		return exists;
 	}
 
+	public inline function clear():Void {
+		this.Clear();
+	}
+
 	@:arrayAccess
 	public inline function get(key:K):V {
 		if (!this.ContainsKey(key)) {

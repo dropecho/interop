@@ -1557,11 +1557,20 @@ class dropecho_interop_test_TestFunc {
 		this.Action0 = function() {
 			haxe_Log.trace("wee",{ fileName : "src/dropecho/interop/test/TestFunc.hx", lineNumber : 15, className : "dropecho.interop.test.TestFunc", methodName : "new"});
 		};
+		this.Action1 = function(x) {
+			haxe_Log.trace("wee: " + Std.string(x),{ fileName : "src/dropecho/interop/test/TestFunc.hx", lineNumber : 16, className : "dropecho.interop.test.TestFunc", methodName : "new"});
+		};
+		this.Action2 = function(x,y) {
+			haxe_Log.trace("wee: " + Std.string(x) + "," + Std.string(y),{ fileName : "src/dropecho/interop/test/TestFunc.hx", lineNumber : 17, className : "dropecho.interop.test.TestFunc", methodName : "new"});
+		};
 		this.Func0 = function() {
 			return 32;
 		};
 		this.Func1 = function(v) {
 			return v;
+		};
+		this.Func2 = function(v1,v2) {
+			return v1;
 		};
 	}
 }

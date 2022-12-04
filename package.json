@@ -4,16 +4,9 @@
   "description": "A library with interop / utils used by other dropecho libs.",
   "author": "vantreeseba <vantreeseba@gmail.com>",
   "repository": "github:dropecho/interop",
-  "main": "dist/js/dropecho.interop.js",
-  "files": [
-    "dist/js/dropecho.interop.js"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
   "license": "MIT",
   "scripts": {
-    "test": "npm run haxe-test && npm run native-test",
+    "test": "npm run build && npm run haxe-test && npm run native-test",
     "haxe-test": "haxelib run munit t",
     "native-test": "npm run build && npm run native-test-cs && npm run native-test-js",
     "native-test-cs": "npm run native-test-cs:copy && npm run native-test-cs:build && npm run native-test-cs:run",
@@ -23,10 +16,6 @@
     "native-test-js": "npm run native-test-js:copy && npm run native-test-js:run",
     "native-test-js:copy": "cp dist/js/dropecho.interop.js lang_tests/js/",
     "native-test-js:run": "cd lang_tests/js && node index.js",
-    "build": "haxe build.hxml",
-    "build-changelog": "conventional-changelog -i CHANGELOG.md -s -r 0",
-    "bump": "npm run build-changelog",
-    "haxe:submit": "haxelib run submit",
-    "postversion": "git add . && git commit -m 'version' && npm run haxe:submit"
+    "build": "haxe build.hxml"
   }
 }

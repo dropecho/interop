@@ -6,8 +6,6 @@ import cs.system.collections.IEnumerator;
 // import cs.system.collections.generic.IList_1 as CSList;
 import cs.system.collections.generic.List_1 as CSList;
 
-// import cs.Syntax;
-
 @:nativeGen
 class CSListIterator<V> {
 	var v:IEnumerator;
@@ -53,12 +51,11 @@ abstract AbstractArray<V>(CSList<V>) from CSList<V> to CSList<V> {
 	}
 
 	public inline function sort(f:Func_2<V, V, Int>):Void {
-		// cs.Syntax.code('{0}.Sort({1})', this, f);
-		untyped __cs__('{0}.Sort({1})', this, f);
+		cs.Syntax.code('{0}.Sort((a,b)=> {1}(a,b))', this, f);
 	}
 
 	public inline function filter(f:Func_1<V, Bool>):AbstractArray<V> {
-		return new AbstractArray<V>();
+		return cs.Syntax.code('{0}.FindAll((a)=> {1}(a))', this, f);
 	}
 
 	@:arrayAccess
@@ -81,7 +78,7 @@ abstract AbstractArray<V>(CSList<V>) from CSList<V> to CSList<V> {
 	}
 
 	@:from
-	public static function fromArray<V>(array:Array<V>):AbstractArray<V> {
+	public static inline function fromArray<V>(array:Array<V>):AbstractArray<V> {
 		var abs = new AbstractArray();
 		for (val in array) {
 			abs.push(val);
@@ -90,7 +87,7 @@ abstract AbstractArray<V>(CSList<V>) from CSList<V> to CSList<V> {
 	}
 
 	@:from
-	public static function fromAny<V>(d:Any):AbstractArray<Dynamic> {
+	public static inline function fromAny<V>(d:Any):AbstractArray<Dynamic> {
 		if (Std.isOfType(d, CSList)) {
 			return new AbstractArray(d);
 		}

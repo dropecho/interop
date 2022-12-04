@@ -6,22 +6,22 @@ public static class FuncTests {
   public static void RunTests() {
     TypesAreSame();
     CanCreateFromAction0();
-    // CanReturnAction0FromHaxe();
+    CanReturnAction0FromHaxe();
 
     CanCreateFromAction1();
-    // CanReturnAction1FromHaxe();
+    CanReturnAction1FromHaxe();
 
     CanCreateFromAction2();
-    // CanReturnAction2FromHaxe();
+    CanReturnAction2FromHaxe();
 
     CanCreateFromFunc0();
-    // CanReturnFunc0FromHaxe();
+    CanReturnFunc0FromHaxe();
 
     CanCreateFromFunc1();
     CanReturnFunc1FromHaxe();
 
     CanCreateFromFunc2();
-    // CanReturnFunc2FromHaxe();
+    CanReturnFunc2FromHaxe();
   }
 
   static void TypesAreSame() {
@@ -106,7 +106,7 @@ public static class FuncTests {
     var val = 32;
     var output = testFunc.Func1(val);
 
-    Assert.areEqual(testFunc.Func1.GetType(), typeof(Func<int>));
+    Assert.areEqual(testFunc.Func1.GetType(), typeof(Func<int,int>));
     Assert.areEqual(output, val);
   }
 
@@ -117,5 +117,16 @@ public static class FuncTests {
 
     Assert.areEqual(testFunc.Func2.GetType(), func.GetType());
   }
+
+  static void CanReturnFunc2FromHaxe() {
+    var testFunc = new TestFunc<int, int, int>();
+    var val = 32;
+    var output = testFunc.Func2(val, val);
+
+    Assert.areEqual(testFunc.Func2.GetType(), typeof(Func<int,int,int>));
+    Assert.areEqual(output, val);
+  }
+
+
 }
 
