@@ -6,7 +6,7 @@
   "repository": "github:dropecho/interop",
   "license": "MIT",
   "scripts": {
-    "test": "npm run build && npm run haxe-test && npm run native-test",
+    "test": "mkdir -p artifacts && npm run build && npm run haxe-test && npm run native-test",
     "haxe-test": "haxelib run munit t",
     "native-test": "npm run build && npm run native-test-cs && npm run native-test-js",
     "native-test-cs": "npm run native-test-cs:copy && npm run native-test-cs:build && npm run native-test-cs:run",

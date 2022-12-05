@@ -1312,13 +1312,6 @@ class dropecho_interop_AbstractMap {
 		}
 		return this1;
 	}
-	static get(this1,key) {
-		return this1[Std.string(key)];
-	}
-	static set(this1,key,value) {
-		this1[Std.string(key)] = value;
-		return value;
-	}
 	static fromDynamic(map) {
 		return dropecho_interop_AbstractMap._new(map);
 	}
@@ -1346,6 +1339,22 @@ class dropecho_interop_AbstractMap {
 			abs[Std.string(k)] = v;
 		}
 		return abs;
+	}
+	static get(this1,key) {
+		return this1[Std.string(key)];
+	}
+	static set(this1,key,value) {
+		this1[Std.string(key)] = value;
+		return value;
+	}
+	static clear(this1) {
+		let _g = 0;
+		let _g1 = Reflect.fields(this1);
+		while(_g < _g1.length) {
+			let key = _g1[_g];
+			++_g;
+			Reflect.deleteField(this1,key);
+		}
 	}
 }
 class dropecho_interop_Extender {
