@@ -21,7 +21,6 @@ class TestFunc<T1, T2, R> {
 		Func2 = (v1:T1, v2:T2) -> return cast v1;
 	}
 
-	#if cs
 	function createAction0(a:Action_0) {
 		Action0 = a;
 	}
@@ -45,5 +44,4 @@ class TestFunc<T1, T2, R> {
 	function createFunc2(a:Func_2<T1, T2, R>) {
 		Func2 = a;
 	}
-	#end
 }

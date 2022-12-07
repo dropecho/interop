@@ -1,5 +1,7 @@
 package dropecho.interop.test;
 
+import haxe.ds.ArraySort;
+
 @:struct
 @:expose('TestClassConfig')
 class TestClassConfig {
