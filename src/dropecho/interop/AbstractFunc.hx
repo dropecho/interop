@@ -116,6 +116,9 @@ abstract Func_0<R>(Func__0<R>) from Func__0<R> {
 abstract Func_1<T1, R>(Func__1<T1, R>) from Func__1<T1, R> {
 	@:from
 	public static inline function fromHaxe<T1, R>(f:T1->R):Func_1<T1, R> {
+		if (f == null) {
+			return null;
+		}
 		return #if cs
 			cs.Syntax.code('(p1) => {
         return (dynamic){0}.__hx_invokeDynamic(new object[]{p1});

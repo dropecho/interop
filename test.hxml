@@ -5,7 +5,7 @@
 -lib hxnodejs
 
 -main TestMain
--js artifacts/js_test/
+-js artifacts/js_test/js_test.js
 
 --next
 -cp src
@@ -15,13 +15,3 @@
 
 -main TestMain
 -cs artifacts/cs_test/
-
---next
--cp src
--cp test
--lib dropecho.ds 
--lib munit
--lib hamcrest
-
--main TestMain
-# -neko artifacts/test/neko_test.n

@@ -27,16 +27,16 @@ class AbstractArrayTest {
 		Assert.areEqual(1, m[0]);
 	}
 
-//   @Test
-//   public function sort() {
-//     var m = new AbstractArray<Int>();
-//     m.unshift(1);
-//     m.unshift(2);
-//
-//     m.sort((a, b) -> b - a);
-//
-//     Assert.areEqual(2, m[0]);
-//   }
+	//   @Test
+	//   public function sort() {
+	//     var m = new AbstractArray<Int>();
+	//     m.unshift(1);
+	//     m.unshift(2);
+	//
+	//     m.sort((a, b) -> b - a);
+	//
+	//     Assert.areEqual(2, m[0]);
+	//   }
 
 	@Test
 	public function filter() {

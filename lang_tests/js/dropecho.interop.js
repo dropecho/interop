@@ -1278,6 +1278,9 @@ class dropecho_interop_Func_$0 {
 }
 class dropecho_interop_Func_$1 {
 	static fromHaxe(f) {
+		if(f == null) {
+			return null;
+		}
 		return f;
 	}
 	static toHaxe(this1) {
