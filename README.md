@@ -2,9 +2,7 @@
 
 Mostly for internal use.
 
-Documentation to come.
-
-This libaray contains "abstract" classes that allow easier interop with
+This libary contains "abstract" classes that allow easier interop with
 native code for dropecho libraries.
 
 For example:
