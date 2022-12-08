@@ -1,10 +1,27 @@
 package dropecho.interop;
 
+import haxe.iterators.DynamicAccessKeyValueIterator;
 import haxe.DynamicAccess;
 import haxe.Constraints.IMap;
 
+class JSAbstractMapKeyValueIterator<K, V> {
+	var _iter:DynamicAccessKeyValueIterator<V>;
+
+	public function new(map:AbstractMap<K, V>) {
+		_iter = new DynamicAccessKeyValueIterator(map);
+	}
+
+	public function hasNext():Bool {
+		return _iter.hasNext();
+	}
+
+	public function next():{key:K, value:V} {
+		return cast _iter.next();
+	}
+}
+
 @:forward
-abstract AbstractMap<K, V>(DynamicAccess<Dynamic>) {
+abstract AbstractMap<K, V>(DynamicAccess<Dynamic>) from DynamicAccess<Dynamic> to DynamicAccess<Dynamic> {
 	public function new(?s:DynamicAccess<Dynamic>) {
 		if (s != null) {
 			this = s;
@@ -13,14 +30,16 @@ abstract AbstractMap<K, V>(DynamicAccess<Dynamic>) {
 		}
 	}
 
-	@:from
-	public static inline function fromDynamic(map:Dynamic):AbstractMap<String, Dynamic> {
-		return fromDynamicAccess(map);
-	}
-
-	@:from
-	public static inline function fromDynamicAccess(map:DynamicAccess<Dynamic>):AbstractMap<String, Dynamic> {
-		return new AbstractMap<String, Dynamic>(map);
+	//   @:from
+	//   public static inline function fromDynamic(map:Dynamic):AbstractMap<String, Dynamic> {
+	//     return fromDynamicAccess(map);
+	//   }
+	//   @:from
+	//   public static inline function fromDynamicAccess(map:DynamicAccess<Dynamic>):AbstractMap<String, Dynamic> {
+	//     return new AbstractMap<String, Dynamic>(map);
+	//   }
+	public inline function keyValueIterator() {
+		return new JSAbstractMapKeyValueIterator<K, V>(this);
 	}
 
 	@:from
@@ -36,6 +55,10 @@ abstract AbstractMap<K, V>(DynamicAccess<Dynamic>) {
 		return abs;
 	}
 
+	public inline function exists(key:K):Bool {
+		return this.exists(Std.string(key));
+	}
+
 	@:arrayAccess
 	public inline function get(key:K):V {
 		return this.get(Std.string(key));
@@ -47,9 +70,9 @@ abstract AbstractMap<K, V>(DynamicAccess<Dynamic>) {
 		return value;
 	}
 
-  public inline function clear() {
-    for(key in this.keys()) {
-      this.remove(key);
-    }
-  }
+	public inline function clear() {
+		for (key in this.keys()) {
+			this.remove(key);
+		}
+	}
 }

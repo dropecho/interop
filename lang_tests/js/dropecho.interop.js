@@ -1304,6 +1304,26 @@ class dropecho_interop_Func_$2 {
 		return this1(p1,p2);
 	}
 }
+class dropecho_interop_JSAbstractMapKeyValueIterator {
+	constructor(map) {
+		this._iter = new haxe_iterators_DynamicAccessKeyValueIterator(map);
+	}
+	hasNext() {
+		let _this = this._iter;
+		return _this.index < _this.keys.length;
+	}
+	next() {
+		let _this = this._iter;
+		let key = _this.keys[_this.index++];
+		return { value : _this.access[key], key : key};
+	}
+}
+$hxClasses["dropecho.interop.JSAbstractMapKeyValueIterator"] = dropecho_interop_JSAbstractMapKeyValueIterator;
+dropecho_interop_JSAbstractMapKeyValueIterator.__name__ = "dropecho.interop.JSAbstractMapKeyValueIterator";
+Object.assign(dropecho_interop_JSAbstractMapKeyValueIterator.prototype, {
+	__class__: dropecho_interop_JSAbstractMapKeyValueIterator
+	,_iter: null
+});
 class dropecho_interop_AbstractMap {
 	static _new(s) {
 		let this1;
@@ -1315,11 +1335,8 @@ class dropecho_interop_AbstractMap {
 		}
 		return this1;
 	}
-	static fromDynamic(map) {
-		return dropecho_interop_AbstractMap._new(map);
-	}
-	static fromDynamicAccess(map) {
-		return dropecho_interop_AbstractMap._new(map);
+	static keyValueIterator(this1) {
+		return new dropecho_interop_JSAbstractMapKeyValueIterator(this1);
 	}
 	static fromMap(map) {
 		let abs = dropecho_interop_AbstractMap._new();
@@ -1342,6 +1359,9 @@ class dropecho_interop_AbstractMap {
 			abs[Std.string(k)] = v;
 		}
 		return abs;
+	}
+	static exists(this1,key) {
+		return Object.prototype.hasOwnProperty.call(this1,Std.string(key));
 	}
 	static get(this1,key) {
 		return this1[Std.string(key)];
@@ -1455,16 +1475,11 @@ class dropecho_interop_Extender {
 						abs[Std.string(k)] = v;
 					}
 					let copy = abs;
-					let access = copy;
-					let _g_access = access;
-					let _g_keys = Reflect.fields(access);
-					let _g_index = 0;
-					while(_g_index < _g_keys.length) {
-						let key = _g_keys[_g_index++];
-						let _g1_value = _g_access[key];
-						let _g1_key = key;
-						let k = _g1_key;
-						let v = _g1_value;
+					let _g1 = new dropecho_interop_JSAbstractMapKeyValueIterator(copy);
+					while(_g1.hasNext()) {
+						let _g = _g1.next();
+						let k = _g.key;
+						let v = _g.value;
 						baseField.set(k,v);
 					}
 				} else if(bfIsObject) {
