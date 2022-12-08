@@ -56,4 +56,8 @@ abstract AbstractMap<K, V>(Map<K, V>) from Map<K, V> to Map<K, V> {
 	@:from static inline function fromObjectMap<K:{}, V>(map:ObjectMap<K, V>):AbstractMap<K, V> {
 		return cast map;
 	}
+
+	@:from static inline function fromEnumValueMap<K:EnumValue, V>(map:EnumValueMap<K, V>):AbstractMap<K, V> {
+		return cast map;
+	}
 }

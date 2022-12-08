@@ -21,12 +21,12 @@ class JSAbstractMapKeyValueIterator<K, V> {
 }
 
 @:forward
-abstract AbstractMap<K, V>(DynamicAccess<Dynamic>) from DynamicAccess<Dynamic> to DynamicAccess<Dynamic> {
-	public function new(?s:DynamicAccess<Dynamic>) {
+abstract AbstractMap<K, V>(DynamicAccess<V>) from DynamicAccess<V> to DynamicAccess<V> {
+	public function new(?s:DynamicAccess<V>) {
 		if (s != null) {
 			this = s;
 		} else {
-			this = new DynamicAccess<Dynamic>();
+			this = new DynamicAccess<V>();
 		}
 	}
 
