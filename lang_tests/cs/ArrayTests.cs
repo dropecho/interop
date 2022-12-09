@@ -32,5 +32,13 @@ public static class ArrayTests {
 
     Assert.areEqual(testArray.array.GetType(), list.GetType());
   }
+
+  static void CanSort() {
+    var list = new List<int>();
+    var testArray = new TestArray<int>();
+    testArray.fromList(list);
+
+    testArray.array.Sort((a,b) => a-b);
+  }
 }
 
