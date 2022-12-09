@@ -56,7 +56,7 @@ class AbstractFuncTest {
 
 //   @Test
 //   public function func1() {
-//     var m:Func_1<Int, Int> = (p1:Int) -> p1 + 1;
+//     var m:Func_1<Int, Int> = (p:Int) -> p + 1;
 //     var out = m.call(1);
 //     Assert.areEqual(2, out);
 //   }

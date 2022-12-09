@@ -1,6 +1,9 @@
 package dropecho.interop;
 
 // #if (js || php7)
+import haxe.macro.TypeTools;
+import haxe.rtti.Rtti;
+
 #if !cs
 typedef Action__0 = Void->Void;
 typedef Action__1<T1> = T1->Void;
@@ -98,7 +101,7 @@ abstract Action_2<T1, T2>(Action__2<T1, T2>) from Action__2<T1, T2> {
 abstract Func_0<R>(Func__0<R>) from Func__0<R> {
 	@:from
 	public static inline function fromHaxe<R>(f:Void->R):Func_0<R> {
-		return #if cs untyped __cs__('() => {0}', f()); #else f; #end
+		return #if cs cs.Syntax.code('() => (dynamic){0}.__hx_invoke0_o()', f); #else f; #end
 	}
 
 	@:to
@@ -116,12 +119,9 @@ abstract Func_0<R>(Func__0<R>) from Func__0<R> {
 abstract Func_1<T1, R>(Func__1<T1, R>) from Func__1<T1, R> {
 	@:from
 	public static inline function fromHaxe<T1, R>(f:T1->R):Func_1<T1, R> {
-		if (f == null) {
-			return null;
-		}
 		return #if cs
 			cs.Syntax.code('(p1) => {
-        return (dynamic){0}.__hx_invokeDynamic(new object[]{p1});
+        return (dynamic){0}.__hx_invoke1_o(0.0, p1);
       }', f);
 		#else
 			f;
@@ -133,10 +133,12 @@ abstract Func_1<T1, R>(Func__1<T1, R>) from Func__1<T1, R> {
 		return call;
 	}
 
-	// @:functionCode("return this(p1);")
 	public inline function call(p1:T1):R {
-		// return #if cs null #else this(p1) #end;
-		return #if cs untyped __cs__('{0}({1})', this, p1); #else this(p1); #end
+		return #if cs
+			cs.Syntax.code('{0}({1})', this, p1);
+		#else
+			this(p1);
+		#end
 	}
 }
 
@@ -145,9 +147,7 @@ abstract Func_2<T1, T2, R>(Func__2<T1, T2, R>) from Func__2<T1, T2, R> {
 	@:from
 	public static inline function fromHaxe<T1, T2, R>(f:T1->T2->R):Func_2<T1, T2, R> {
 		return #if cs
-			cs.Syntax.code('(p1,p2) => {
-        return (dynamic){0}.__hx_invokeDynamic(new object[]{p1,p2});
-      }', f);
+			cs.Syntax.code('(p1,p2) => (dynamic){0}.__hx_invokeDynamic(new object[]{p1,p2})', f);
 		#else
 			f;
 		#end
