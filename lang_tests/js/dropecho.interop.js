@@ -1775,8 +1775,11 @@ class dropecho_interop_Extender {
 		if(name == null) {
 			name = "";
 		}
-		let isMap = name.startsWith("haxe.ds.") && name.endsWith("Map");
-		return isMap;
+		if(name.startsWith("haxe.ds.")) {
+			return name.endsWith("Map");
+		} else {
+			return false;
+		}
 	}
 }
 $hxClasses["dropecho.interop.Extender"] = dropecho_interop_Extender;

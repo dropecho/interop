@@ -114,7 +114,6 @@ class Extender {
 		var type = Type.getClass(obj);
 		var name = type != null ? Type.getClassName(type) : "";
 		name = name != null ? name : "";
-		var isMap = name.startsWith("haxe.ds.") && name.endsWith("Map");
-		return isMap;
+		return name.startsWith("haxe.ds.") && name.endsWith("Map");
 	}
 }
