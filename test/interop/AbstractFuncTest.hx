@@ -47,12 +47,13 @@ class AbstractFuncTest {
 		Assert.areEqual(2, val);
 	}
 
-	@Test
-	public function func0() {
-		var m:Func_0<Int> = () -> 1;
-		var out = m.call();
-		Assert.areEqual(1, out);
-	}
+//   @Test
+//   public function func0() {
+//     var m:Func_0<Int> = () -> 1;
+
+//     var out = m.call();
+//     Assert.areEqual(1, out);
+//   }
 
 //   @Test
 //   public function func1() {
