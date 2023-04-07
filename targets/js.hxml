@@ -3,4 +3,4 @@
 -D source-map-content
 
 # OUTPUT 
--js dist/js/dropecho.interop.js 
+-js dist/js/dropecho.interop.cjs 

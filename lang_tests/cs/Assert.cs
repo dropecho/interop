@@ -1,5 +1,21 @@
 ﻿using System;
 
+public class AssertException : Exception {
+  public AssertException()
+    {
+    }
+
+    public AssertException(string message)
+        : base(message)
+    {
+    }
+
+    public AssertException(string message, Exception inner)
+        : base(message, inner)
+    {
+    }
+}
+
 public static class Assert {
   public static int totalCount = 0;
   public static int passedCount = 0;
@@ -9,7 +25,7 @@ public static class Assert {
     totalCount++;
     if (!actual.Equals(expected)) {
       failedCount++;
-      throw new Exception($"Expected {actual} to equal {expected}.");
+      throw new AssertException($"Expected {actual} to equal {expected}.");
     } else {
       passedCount++;
     }
@@ -19,7 +35,7 @@ public static class Assert {
     totalCount++;
     if (actual == null) {
       failedCount++;
-      throw new Exception($"Expected {actual} to not be null.");
+      throw new AssertException($"Expected {actual} to not be null.");
     } else {
       passedCount++;
     }

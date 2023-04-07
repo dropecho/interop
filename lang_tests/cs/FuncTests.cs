@@ -116,6 +116,7 @@ public static class FuncTests {
     testFunc.createFunc2(func);
 
     Assert.areEqual(testFunc.Func2.GetType(), func.GetType());
+    Assert.areEqual(64, func(32,32));
   }
 
   static void CanReturnFunc2FromHaxe() {
@@ -126,7 +127,4 @@ public static class FuncTests {
     Assert.areEqual(testFunc.Func2.GetType(), typeof(Func<int,int,int>));
     Assert.areEqual(output, val);
   }
-
-
 }
-

@@ -1,5 +1,5 @@
-var assert = require('./assert');
-var extenderTests = require('./extenderTests');
+var assert = require('./assert.cjs');
+var extenderTests = require('./extenderTests.cjs');
 
 try{
   assert.run(extenderTests);

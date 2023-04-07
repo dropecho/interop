@@ -1,5 +1,5 @@
-var { TestThisClass, TestMap } = require('./dropecho.interop');
-var assert = require('./assert');
+var { TestThisClass, TestMap } = require('./dropecho.interop.cjs');
+var assert = require('./assert.cjs');
 
 var testMap = new TestMap();
 

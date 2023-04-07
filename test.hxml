@@ -5,7 +5,7 @@
 -lib hxnodejs
 
 -main TestMain
--js artifacts/js_test/js_test.js
+-js artifacts/js_test/js_test.cjs
 
 --next
 -cp src

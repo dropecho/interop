@@ -3,6 +3,8 @@ package dropecho.interop.test;
 import dropecho.interop.AbstractFunc;
 
 @:expose("TestFunc")
+@:generic
+@:nativeGen
 class TestFunc<T1, T2, R> {
 	public var Action0:Action_0;
 	public var Action1:Action_1<T1>;
@@ -18,7 +20,7 @@ class TestFunc<T1, T2, R> {
 
 		Func0 = () -> return cast 32;
 		Func1 = (v:T1) -> return cast v;
-		Func2 = (v1:T1, v2:T2) -> return cast v1;
+		Func2 = (v1:T1, v2:T2) -> return cast v2;
 	}
 
 	function createAction0(a:Action_0) {
