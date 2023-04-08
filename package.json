@@ -6,6 +6,7 @@
   "repository": "github:dropecho/interop",
   "license": "MIT",
   "scripts": {
+    "postinstall": "lix download",
     "test": "npm run haxe-test && npm run native-test",
     "haxe-test": "haxelib run munit t",
     "native-test": "npm run build && npm run native-test-cs && npm run native-test-js",
@@ -30,5 +31,8 @@
     "semantic-release": "^19.0.5",
     "semantic-release-haxelib": "^1.1.0"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "lix": "^15.12.0"
+  }
 }
