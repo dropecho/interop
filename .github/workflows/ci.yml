@@ -1,6 +1,7 @@
 name: HAXE_CI
 
 on:
+  workflow_dispatch:
   workflow_call:
     secrets:
       GH_TOKEN:
