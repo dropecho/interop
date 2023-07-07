@@ -8,7 +8,7 @@
   "scripts": {
     "postinstall": "lix download",
     "test": "npm run haxe-test && npm run native-test",
-    "haxe-test": "haxelib run munit t",
+    "haxe-test": "haxelib run dropecho.testing",
     "native-test": "npm run build && npm run native-test-cs && npm run native-test-js",
     "native-test-cs": "npm run native-test-cs:copy && npm run native-test-cs:build && npm run native-test-cs:run",
     "native-test-cs:copy": "cp dist/cs/dropecho.interop/bin/dropecho.interop.dll lang_tests/cs/",

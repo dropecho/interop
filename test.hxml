@@ -1,26 +1,16 @@
 -cp src
 -cp test
--lib munit
--lib hamcrest
--lib hxnodejs
+-lib dropecho.testing
+-lib utest
 
--main TestMain
+--each
+
+--next
+-lib hxnodejs
 -js artifacts/js_test/js_test.cjs
 
 --next
--cp src
--cp test
--lib munit
--lib hamcrest
-
--main TestMain
 -cs artifacts/cs_test/
 
 --next
--cp src
--cp test
--lib munit
--lib hamcrest
-
--main TestMain
 -neko artifacts/neko_test/test.n

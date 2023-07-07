@@ -1,6 +1,7 @@
 package interop;
 
-import massive.munit.Assert;
+import utest.Assert;
+import utest.Test;
 import dropecho.interop.Extender;
 import haxe.Json;
 import haxe.DynamicAccess;
@@ -9,7 +10,7 @@ class ExClassTest {
 	public var x:Int = 1;
 	public var y:Int = 1;
 
-	public function new(?opts:Dynamic = null) {
+	public function test_new(?opts:Dynamic = null) {
 		Extender.defaults(this, opts);
 	}
 }
@@ -24,14 +25,13 @@ typedef Complicated = {
 	var sub:Complicated;
 }
 
-class ExtenderTest {
+class ExtenderTests extends Test {
 	var base:Dynamic;
 	var ex:Dynamic;
 
 	var complicated:Dynamic;
 
-	@Before
-	public function setup() {
+	public function new() {
 		base = {x: 0, y: {z: 0}, a: {b: 0}};
 		ex = {
 			x: 1,
@@ -48,38 +48,32 @@ class ExtenderTest {
 		};
 	}
 
-	@Test
-	public function test_extender_should_set_simple_field_on_base() {
+	public function test_test_extender_should_set_simple_field_on_base() {
 		Extender.defaults(base, ex);
-		Assert.areEqual(1, base.x);
+		Assert.equals(1, base.x);
 	}
 
-	@Test
-	public function test_extender_should_set_object_field_on_base() {
+	public function test_test_extender_should_set_object_field_on_base() {
 		Extender.defaults(base, ex);
-		Assert.areEqual(1, base.y.z);
+		Assert.equals(1, base.y.z);
 	}
 
-	@Test
-	public function test_extender_should_add_simple_field_on_base() {
+	public function test_test_extender_should_add_simple_field_on_base() {
 		Extender.defaults(base, ex);
-		Assert.areEqual(1, base.add);
+		Assert.equals(1, base.add);
 	}
 
-	@Test
-	public function test_extender_should_not_overwrite_existing_field_on_subobject_when_extension_does_not_have_field() {
+	public function test_test_extender_should_not_overwrite_existing_field_on_subobject_when_extension_does_not_have_field() {
 		Extender.defaults(base, ex);
-		Assert.areEqual(0, base.a.b);
+		Assert.equals(0, base.a.b);
 	}
 
-	@Test
-	public function test_extender_should_add_non_existing_field_on_subobject_when_extension_has_field() {
+	public function test_test_extender_should_add_non_existing_field_on_subobject_when_extension_has_field() {
 		Extender.defaults(base, ex);
-		Assert.areEqual(0, base.a.c);
+		Assert.equals(0, base.a.c);
 	}
 
-	@Test
-	public function test_extender_should_handle_null_extension_object() {
+	public function test_test_extender_should_handle_null_extension_object() {
 		var good = false;
 		try {
 			Extender.defaults(base, null);
@@ -91,8 +85,7 @@ class ExtenderTest {
 		Assert.isTrue(good);
 	}
 
-	@Test
-	public function test_extender_should_handle_null_base_object() {
+	public function test_test_extender_should_handle_null_base_object() {
 		var good = false;
 		try {
 			Extender.defaults(null, ex);
@@ -105,53 +98,48 @@ class ExtenderTest {
 		Assert.isTrue(good);
 	}
 
-	@Test
-	public function test_extender_should_extend_all_for_empty_base_object() {
+	public function test_test_extender_should_extend_all_for_empty_base_object() {
 		var base:Dynamic = {};
 		var empty = Extender.defaults(base, ex);
 
-		Assert.areEqual(ex.x, empty.x);
-		// Assert.areEqual(ex.y, empty.y);
-		Assert.areEqual(ex.y.z, empty.y.z);
-		Assert.areEqual(ex.a.c, empty.a.c);
-		Assert.areEqual(ex.add, empty.add);
+		Assert.equals(ex.x, empty.x);
+		// Assert.equals(ex.y, empty.y);
+		Assert.equals(ex.y.z, empty.y.z);
+		Assert.equals(ex.a.c, empty.a.c);
+		Assert.equals(ex.add, empty.add);
 	}
 
-	@Test
-	public function test_extender_should_extend_by_multiple_extensions() {
+	public function test_test_extender_should_extend_by_multiple_extensions() {
 		var base:Dynamic = {};
 		var ex:Array<Dynamic> = [{x: 1}, {y: 2}];
 		var empty = Extender.defaults(base, ex);
 
-		Assert.areEqual(1, empty.x);
-		Assert.areEqual(2, empty.y);
+		Assert.equals(1, empty.x);
+		Assert.equals(2, empty.y);
 	}
 
-	@Test
-	public function test_extender_should_deal_with_arrays() {
+	public function test_test_extender_should_deal_with_arrays() {
 		var base:Dynamic = {};
 		var ex:Array<Dynamic> = [{}, complicated];
 		var empty = Extender.defaults(base, ex);
 
-		Assert.areEqual(complicated.x, empty.x);
-		Assert.areEqual(complicated.y, empty.y);
-		Assert.areEqual(complicated.stuff[0].x, empty.stuff[0].x);
+		Assert.equals(complicated.x, empty.x);
+		Assert.equals(complicated.y, empty.y);
+		Assert.equals(complicated.stuff[0].x, empty.stuff[0].x);
 	}
 
-	@Test
-	public function null_opts_should_function() {
+	public function test_null_opts_should_function() {
 		var test = new ExClassTest();
 
-		Assert.areEqual(1, test.x);
-		Assert.areEqual(1, test.y);
+		Assert.equals(1, test.x);
+		Assert.equals(1, test.y);
 	}
 
-	@Test
-	public function opts_should_function() {
+	public function test_opts_should_function() {
 		var test = new ExClassTest({y: 2});
 
-		Assert.areEqual(1, test.x);
-		Assert.areEqual(2, test.y);
+		Assert.equals(1, test.x);
+		Assert.equals(2, test.y);
 	}
 
 	// typedef Complicated = {
@@ -164,8 +152,7 @@ class ExtenderTest {
 	//   var sub:Sub;
 	// }
 
-	@Test
-	public function complicated_should_work() {
+	public function test_complicated_should_work() {
 		var expected = {
 			int: 1,
 			str: "Hi",
@@ -180,8 +167,7 @@ class ExtenderTest {
 		var out = Extender.defaults(base, expected);
 	}
 
-	@Test
-	public function nested_complicated_should_work() {
+	public function test_nested_complicated_should_work() {
 		var expected = {
 			int: 1,
 			str: "Hi",
@@ -210,7 +196,7 @@ class ExtenderTest {
 		// checkEquality(expected, out);
 	}
 
-	public function checkEquality(ex:Dynamic, out:Dynamic) {
+	public function test_checkEquality(ex:Dynamic, out:Dynamic) {
 		for (f in Reflect.fields(ex)) {
 			var exVal = Reflect.field(ex, f);
 			var outVal = Reflect.field(out, f);
@@ -221,12 +207,12 @@ class ExtenderTest {
 				if (Reflect.isObject(exVal[0])) {
 					checkEquality(exVal[0], outVal[0]);
 				} else {
-					Assert.areEqual(exVal[0], outVal[0]);
+					Assert.equals(exVal[0], outVal[0]);
 				}
 			} else if (Reflect.isObject(exVal) && Reflect.isObject(outVal)) {
 				checkEquality(exVal, outVal);
 			} else {
-				Assert.areEqual(exVal, outVal);
+				Assert.equals(exVal, outVal);
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 package interop;
 
-import massive.munit.Assert;
+import utest.Assert;
 import dropecho.interop.AbstractMap;
 import haxe.ds.StringMap;
 import haxe.ds.IntMap;
@@ -11,15 +11,13 @@ typedef Point = {
 	var y:Float;
 }
 
-class AbstractMapTests {
-	public function new() {};
-
+class AbstractMapTests extends utest.Test {
 	public function test_fromStringMap() {
 		var m = new StringMap<Int>();
 		m.set("test", 1);
 
 		var am:AbstractMap<String, Int> = m;
-		Assert.areEqual(m.get("test"), am["test"]);
+		Assert.equals(m.get("test"), am["test"]);
 	}
 
 	public function test_fromIntMap() {
@@ -27,7 +25,7 @@ class AbstractMapTests {
 		m.set(2, 1);
 
 		var am:AbstractMap<Int, Int> = m;
-		Assert.areEqual(m.get(2), am[2]);
+		Assert.equals(m.get(2), am[2]);
 	}
 
 	public function test_fromObjectMap() {
@@ -36,14 +34,14 @@ class AbstractMapTests {
 		m.set(obj, 1);
 
 		var am:AbstractMap<Point, Int> = m;
-		Assert.areEqual(m.get(obj), am[obj]);
+		Assert.equals(m.get(obj), am[obj]);
 	}
 
 	public function test_fromMap() {
 		var m = ["test" => 1];
 
 		var am:AbstractMap<String, Int> = m;
-		Assert.areEqual(m.get("test"), am["test"]);
+		Assert.equals(m.get("test"), am["test"]);
 	}
 
 	public function test_fromNestedMap() {
@@ -51,21 +49,21 @@ class AbstractMapTests {
 		var m = ["test" => inner];
 
 		var am:AbstractMap<String, AbstractMap<String, Int>> = m;
-		Assert.areEqual(m.get("test"), am["test"]);
+		Assert.equals(m.get("test"), am["test"]);
 	}
 
 	//
 	//   public function test_fromNestedMap2() {
 	//     var m = ["test" => ["bar" => 1]];
 	//     var am:AbstractMap<String, AbstractMap<String, Int>> = m;
-	//     Assert.areEqual(m.get("test"), am.get("test"));
+	//     Assert.equals(m.get("test"), am.get("test"));
 	//   }
 	#if js
 	public function test_fromDynamic() {
 		var obj:Dynamic = {'test': 1};
 
 		var am:AbstractMap<String, Int> = obj;
-		Assert.areEqual(obj.test, am['test']);
+		Assert.equals(obj.test, am['test']);
 	}
 	#end
 }
