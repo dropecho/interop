@@ -6,7 +6,7 @@
   "repository": "github:dropecho/interop",
   "license": "MIT",
   "scripts": {
-    "postinstall": "lix download",
+    "install": "lix download",
     "test": "npm run haxe-test && npm run native-test",
     "haxe-test": "haxelib run dropecho.testing",
     "native-test": "npm run build && npm run native-test-cs && npm run native-test-js",
