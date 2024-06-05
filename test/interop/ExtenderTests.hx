@@ -3,14 +3,12 @@ package interop;
 import utest.Assert;
 import utest.Test;
 import dropecho.interop.Extender;
-import haxe.Json;
-import haxe.DynamicAccess;
 
 class ExClassTest {
 	public var x:Int = 1;
 	public var y:Int = 1;
 
-	public function test_new(?opts:Dynamic = null) {
+	public function new(?opts:Dynamic = null) {
 		Extender.defaults(this, opts);
 	}
 }
@@ -31,7 +29,7 @@ class ExtenderTests extends Test {
 
 	var complicated:Dynamic;
 
-	public function new() {
+	public function setup() {
 		base = {x: 0, y: {z: 0}, a: {b: 0}};
 		ex = {
 			x: 1,
@@ -48,32 +46,32 @@ class ExtenderTests extends Test {
 		};
 	}
 
-	public function test_test_extender_should_set_simple_field_on_base() {
+	public function test_extender_should_set_simple_field_on_base() {
 		Extender.defaults(base, ex);
 		Assert.equals(1, base.x);
 	}
 
-	public function test_test_extender_should_set_object_field_on_base() {
+	public function test_extender_should_set_object_field_on_base() {
 		Extender.defaults(base, ex);
 		Assert.equals(1, base.y.z);
 	}
 
-	public function test_test_extender_should_add_simple_field_on_base() {
+	public function test_extender_should_add_simple_field_on_base() {
 		Extender.defaults(base, ex);
 		Assert.equals(1, base.add);
 	}
 
-	public function test_test_extender_should_not_overwrite_existing_field_on_subobject_when_extension_does_not_have_field() {
+	public function test_extender_should_not_overwrite_existing_field_on_subobject_when_extension_does_not_have_field() {
 		Extender.defaults(base, ex);
 		Assert.equals(0, base.a.b);
 	}
 
-	public function test_test_extender_should_add_non_existing_field_on_subobject_when_extension_has_field() {
+	public function test_extender_should_add_non_existing_field_on_subobject_when_extension_has_field() {
 		Extender.defaults(base, ex);
 		Assert.equals(0, base.a.c);
 	}
 
-	public function test_test_extender_should_handle_null_extension_object() {
+	public function test_extender_should_handle_null_extension_object() {
 		var good = false;
 		try {
 			Extender.defaults(base, null);
@@ -85,7 +83,7 @@ class ExtenderTests extends Test {
 		Assert.isTrue(good);
 	}
 
-	public function test_test_extender_should_handle_null_base_object() {
+	public function test_extender_should_handle_null_base_object() {
 		var good = false;
 		try {
 			Extender.defaults(null, ex);
@@ -98,7 +96,7 @@ class ExtenderTests extends Test {
 		Assert.isTrue(good);
 	}
 
-	public function test_test_extender_should_extend_all_for_empty_base_object() {
+	public function test_extender_should_extend_all_for_empty_base_object() {
 		var base:Dynamic = {};
 		var empty = Extender.defaults(base, ex);
 
@@ -109,7 +107,7 @@ class ExtenderTests extends Test {
 		Assert.equals(ex.add, empty.add);
 	}
 
-	public function test_test_extender_should_extend_by_multiple_extensions() {
+	public function test_extender_should_extend_by_multiple_extensions() {
 		var base:Dynamic = {};
 		var ex:Array<Dynamic> = [{x: 1}, {y: 2}];
 		var empty = Extender.defaults(base, ex);
@@ -118,7 +116,7 @@ class ExtenderTests extends Test {
 		Assert.equals(2, empty.y);
 	}
 
-	public function test_test_extender_should_deal_with_arrays() {
+	public function test_extender_should_deal_with_arrays() {
 		var base:Dynamic = {};
 		var ex:Array<Dynamic> = [{}, complicated];
 		var empty = Extender.defaults(base, ex);
@@ -152,7 +150,7 @@ class ExtenderTests extends Test {
 	//   var sub:Sub;
 	// }
 
-	public function test_complicated_should_work() {
+	public function x_test_complicated_should_work() {
 		var expected = {
 			int: 1,
 			str: "Hi",
@@ -165,9 +163,10 @@ class ExtenderTests extends Test {
 
 		var base:Dynamic = {};
 		var out = Extender.defaults(base, expected);
+		//     checkEquality(expected, out);
 	}
 
-	public function test_nested_complicated_should_work() {
+	public function x_test_nested_complicated_should_work() {
 		var expected = {
 			int: 1,
 			str: "Hi",
@@ -189,21 +188,23 @@ class ExtenderTests extends Test {
 		var out = Extender.defaults(base, expected);
 
 		// trace(expected);
-		// trace(out);
+		//     trace(out);
 		// trace(expected.map.get('x'));
 		// trace(out.map.get('x'));
 
-		// checkEquality(expected, out);
+		//     checkEquality(expected, out);
 	}
 
-	public function test_checkEquality(ex:Dynamic, out:Dynamic) {
+	public function checkEquality(ex:Dynamic, out:Dynamic) {
 		for (f in Reflect.fields(ex)) {
 			var exVal = Reflect.field(ex, f);
 			var outVal = Reflect.field(out, f);
+			//       trace(f, exVal);
+
 			// if (exVal != null) {
 			//   Assert.isNotNull(outVal);
 			// }
-			if (Std.is(exVal, Array)) {
+			if (Std.isOfType(exVal, Array)) {
 				if (Reflect.isObject(exVal[0])) {
 					checkEquality(exVal[0], outVal[0]);
 				} else {

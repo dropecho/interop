@@ -4,7 +4,6 @@ import dropecho.interop.AbstractFunc.Func_1;
 import dropecho.interop.AbstractFunc.Func_2;
 import dropecho.interop.AbstractFunc.Func__2;
 import cs.system.collections.IEnumerator;
-// import cs.system.collections.generic.IList_1 as CSList;
 import cs.system.collections.generic.List_1 as CSList;
 
 @:nativeGen

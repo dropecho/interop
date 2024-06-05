@@ -6,11 +6,14 @@
 --each
 
 --next
+-python artifacts/py_test
+
+--next
 -lib hxnodejs
--js artifacts/js_test/js_test.cjs
+-js artifacts/js_test.cjs
 
 --next
 -cs artifacts/cs_test/
 
 --next
--neko artifacts/neko_test/test.n
+-neko artifacts/test.n

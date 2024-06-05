@@ -32,9 +32,9 @@ class Extender {
 			extensions.push(extension);
 		}
 
-		for (ex in extensions) {
-			var fields = Reflect.fields(ex);
-			var exType = Type.getClass(ex);
+		for (extension in extensions) {
+			var fields = Reflect.fields(extension);
+			var exType = Type.getClass(extension);
 			var typeFields = exType != null ? Type.getInstanceFields(exType).map(f -> {
 				if (f.startsWith("get_") || f.startsWith("set_")) {
 					var parts = f.split('_');
@@ -52,37 +52,38 @@ class Extender {
 				baseFields = Type.getInstanceFields(baseClass);
 			}
 
-			for (ff in fields) {
+			for (field in fields) {
 				#if cs
 				// If base is strong typed, and does not have field, skip it for C#.
-				if (baseClass != null && baseFields.find(f -> f == ff) == null) {
+				if (baseClass != null && baseFields.find(f -> f == field) == null) {
 					continue;
 				}
 				#end
 
-				var exField = Reflect.field(ex, ff);
-				var baseField = Reflect.field(base, ff);
+				var baseField = Reflect.field(base, field);
+				var extensionField = Reflect.field(extension, field);
+
 				var bfIsArray = isArray(baseField);
 				var bfIsMap = isMap(baseField);
 				var bfIsObject = !bfIsArray && !bfIsMap && isObject(baseField);
 
 				if (bfIsArray) {
-					var copy = AbstractArray.fromAny(exField);
-					for (v in copy) {
-						(cast baseField).push(v);
+					var copy = AbstractArray.fromAny(extensionField);
+					for (value in copy) {
+						(cast baseField).push(value);
 					}
 				} else if (bfIsMap) {
-					var copy = AbstractMap.fromMap(exField);
-					for (k => v in copy.keyValueIterator()) {
-						(cast baseField).set(k, v);
+					var copy = AbstractMap.fromMap(extensionField);
+					for (key => value in copy.keyValueIterator()) {
+						(cast baseField).set(key, value);
 					}
 				} else if (bfIsObject) {
-					defaults(baseField, exField);
+					defaults(baseField, extensionField);
 				} else {
 					try {
-						Reflect.setField(base, ff, exField);
-					} catch (ex:Dynamic) {
-						trace("FAILED SETTING PROP: " + ff + " error: " + ex);
+						Reflect.setField(base, field, extensionField);
+					} catch (extension:Dynamic) {
+						trace("FAILED SETTING PROP: " + field + " error: " + extension);
 					}
 				}
 			}
