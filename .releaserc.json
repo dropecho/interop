@@ -44,7 +44,28 @@
         "additionalFiles": []
       }
     ],
-    "@semantic-release/github"
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "dist/cs/dropecho.interop/bin/dropecho.interop.dll",
+            "name": "dropecho.interop-${nextRelease.gitTag}.dll",
+            "label": "C# DLL"
+          }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "*.md",
+          "package.json",
+          "haxelib.json"
+        ]
+      }
+    ]
   ],
   "preset": "angular"
 }
