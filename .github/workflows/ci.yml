@@ -1,55 +1,11 @@
-name: HAXE_CI
+name: CI
 
 on:
   workflow_dispatch:
-  workflow_call:
-    secrets:
-      GH_TOKEN:
-        required: true
-      HAXELIB_PASS:
-        required: true
-      NPM_TOKEN:
-        required: true
-
-# TODO add rest of os to matrix
-# os: [ubuntu-latest, macos-latest]
-
+  push:
+    branches:
+      - main
 jobs:
-  unit_tests:
-    strategy:
-      fail-fast: true
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: "npm"
-      - name: Run Tests
-        run: |
-          npm ci
-          mkdir artifacts
-          npm run test
-  semantic_release:
-    needs: unit_tests
-    name: semantic_release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: "npm"
-      - name: Run semantic release
-        env: # Or as an environment variable
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          HAXELIB_PASS: ${{secrets.HAXELIB_PASS}}
-          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-        run: |
-          npm ci
-          npm run build
-          npx semantic-release
+  ci:
+    uses: dropecho/.github/.github/workflows/haxe-ci.yml@main
+    secrets: inherit

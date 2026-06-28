@@ -5,18 +5,18 @@
   "author": "vantreeseba <vantreeseba@gmail.com>",
   "repository": "github:dropecho/interop",
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "install": "lix download",
-    "test": "npm run test:haxe && npm run test:native",
-    "test:haxe": "haxelib run dropecho.testing",
+    "prepare": "lix download",
+    "build": "npm run clean && haxe build.hxml",
+    "test": "lix dropecho.testing",
+    "clean": "rm -rf dist artifacts",
     "test:native": "npm run build && npm run test:native-cs && npm run test:native-js",
     "test:native-cs": "npm run test:native-cs:build && npm run test:native-cs:run",
     "test:native-cs:build": "cd lang_tests/cs && mcs -r:../../dist/cs/dropecho.interop/bin/dropecho.interop.dll -recurse:*.cs -out:Main.exe",
     "test:native-cs:run": "cd lang_tests/cs && ./Main.exe",
     "test:native-js": "npm run test:native-js:run",
-    "test:native-js:run": "cd lang_tests/js && node index.cjs",
-    "build": "haxe build.hxml",
-    "clean": "rm -rf artifacts"
+    "test:native-js:run": "cd lang_tests/js && node index.cjs"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.2",
@@ -26,11 +26,8 @@
     "@semantic-release/github": "^8.0.7",
     "@semantic-release/npm": "^9.0.1",
     "@semantic-release/release-notes-generator": "^10.0.3",
+    "lix": "^16.0.2",
     "semantic-release": "^19.0.5",
     "semantic-release-haxelib": "^1.1.0"
-  },
-  "type": "module",
-  "dependencies": {
-    "lix": "^15.12.0"
   }
 }
