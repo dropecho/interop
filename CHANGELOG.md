@@ -1,3 +1,17 @@
+# [0.7.0](https://github.com/dropecho/interop/compare/0.6.0...0.7.0) (2026-06-28)
+
+
+### Bug Fixes
+
+* Fix ci/update lix. ([0f07ccb](https://github.com/dropecho/interop/commit/0f07ccba90fd2b80e8806012baa710bced35e89d))
+* Remove C# build for now. ([d0c0f60](https://github.com/dropecho/interop/commit/d0c0f60b1370adcacaf05f3490fe689d5921d226))
+
+
+### Features
+
+* add ObjectKeyedMap for identity-keyed maps ([fe9e960](https://github.com/dropecho/interop/commit/fe9e9603dcee7692b82ce0df031a5c1383016af2))
+* Cleanup ([d9491fe](https://github.com/dropecho/interop/commit/d9491fef8d009f43e94583d8f0e7223a26d071ca))
+
 ## 0.3.0 (2021-03-20)
 
 * 0.3.0 ([d87596e](https://github.com/dropecho/interop/commit/d87596e))
@@ -31,6 +45,3 @@
 * Release 0.0.1 ([a647ce7](https://github.com/dropecho/interop/commit/a647ce7))
 * version ([6e9e95a](https://github.com/dropecho/interop/commit/6e9e95a))
 * version ([93d1ba5](https://github.com/dropecho/interop/commit/93d1ba5))
-
-
-
