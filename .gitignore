@@ -5,3 +5,8 @@ artifacts
 dist
 lang_tests/**/*.exe
 lang_tests/**/*.dll
+.nyc_output
+lcov.info
+*.swp
+.temp
+.vim/

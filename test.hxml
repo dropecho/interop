@@ -1,19 +1,38 @@
 -cp src
 -cp test
+
+# Test libraries. `dropecho.testing` auto-discovers every `*Tests.hx` class on
+# the classpath and injects the `--main` entry point itself, so none is set here.
 -lib dropecho.testing
 -lib utest
 
+-D dce=no
+
+# Compile the whole library so coverage sees every module, not just what the
+# tests reach.
+--macro include('', true, null, ['src'])
+
 --each
 
---next
--python artifacts/py_test
+# The suite runs on every runnable target below. These mirror the program
+# targets in targets/ (js, cs).
 
+# JS (Node)
 --next
 -lib hxnodejs
+-D js-es=6
 -js artifacts/js_test.cjs
 
---next
--cs artifacts/cs_test/
+# C# — commented out: cs is a real build target (targets/cs.hxml), but the
+# dropecho.testing runner execs the .exe directly, which needs mono registered
+# for .exe (Windows, or a binfmt_misc mono entry on Linux). Uncomment where set up.
+# --next
+# -cs artifacts/cs_test/
 
---next
--neko artifacts/test.n
+# Python — commented out: not a build target for this lib (no targets/python.hxml).
+# --next
+# -python artifacts/py_test.py
+
+# Neko — commented out: not a build target for this lib (kept for ad-hoc runs).
+# --next
+# -neko artifacts/test.n
