@@ -1,3 +1,10 @@
+## [0.8.1](https://github.com/dropecho/interop/compare/0.8.0...0.8.1) (2026-11-03)
+
+
+### Bug Fixes
+
+* pick AbstractMap's JS backing from the key type ([5a4212f](https://github.com/dropecho/interop/commit/5a4212fc066b39f57e7ffc3e72589a18fa341f52))
+
 # [0.8.0](https://github.com/dropecho/interop/compare/0.7.0...0.8.0) (2026-11-03)
 
 
