@@ -1,2 +1,3 @@
+-D net-ver=40
 -D no-root
 -cs dist/cs/dropecho.interop

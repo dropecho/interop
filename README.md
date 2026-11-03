@@ -30,6 +30,25 @@ in JS the shape depends on the key type, picked while compiling:
 | class, anonymous object, `Bool` | native `Map`; objects compare by identity, like C# |
 | a type parameter | plain object; keys come back as strings when iterated |
 
+#### AbstractSet
+
+A set of unique items. Pass a key function to decide which items are equal:
+
+```haxe
+var seen = new AbstractSet<String>();
+var tiles = new AbstractSet<Tile>(t -> t.y * width + t.x); // same position = same tile
+```
+
+in C# acts as a native HashSet<T> (a key function becomes its comparer).
+in JS is a small wrapper, picked while compiling from the item type:
+
+| Item type | JS backing | Equal when |
+| --- | --- | --- |
+| `String`, numbers, `Bool` | native `Map` | same value |
+| class, anonymous object | native `Map` | same object |
+| enum | Haxe `EnumValueMap` | same value, e.g. `Floor(1)` |
+| any, with a key function | either | same key |
+
 #### AbstractFunc
 in C# will convert to action_X or func_X where X is # of inputs/type params.
 in JS is a function.
