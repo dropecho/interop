@@ -73,8 +73,8 @@ class Extender {
 						(cast baseField).push(value);
 					}
 				} else if (bfIsMap) {
-					var copy = AbstractMap.fromMap(extensionField);
-					for (key => value in copy.keyValueIterator()) {
+					var extensionMap:haxe.Constraints.IMap<Dynamic, Dynamic> = extensionField;
+					for (key => value in extensionMap.keyValueIterator()) {
 						(cast baseField).set(key, value);
 					}
 				} else if (bfIsObject) {

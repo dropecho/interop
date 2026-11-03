@@ -20,7 +20,15 @@ in JS acts as a haxe Iterable.
 #### AbstractMap
 
 in C# acts as a native dictionary<K,V>.
-in JS acts as a native object. (ref by obj[key])
+in JS the shape depends on the key type, picked while compiling:
+
+| Key type | JS shape |
+| --- | --- |
+| `String` | plain object (ref by `obj[key]`) |
+| `Int`, `Float` | plain object; keys come back as numbers when iterated |
+| enum | Haxe `EnumValueMap`; keys compare by value |
+| class, anonymous object, `Bool` | native `Map`; objects compare by identity, like C# |
+| a type parameter | plain object; keys come back as strings when iterated |
 
 #### AbstractFunc
 in C# will convert to action_X or func_X where X is # of inputs/type params.
