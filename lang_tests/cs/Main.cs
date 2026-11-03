@@ -14,6 +14,7 @@ public class CSharpTests {
       MapTests.RunTests();
       ArrayTests.RunTests();
       FuncTests.RunTests();
+      IterableTests.RunTests();
     } catch (AssertException e) {
       Assert.ShortMessage(e);
       returnVal = Assert.failedCount;

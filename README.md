@@ -12,6 +12,11 @@ For example:
 in C# acts as a List<T>.
 in JS acts as a native array.
 
+#### AbstractIterable
+
+in C# acts as an IEnumerable<T> (accepts List<T>, arrays, HashSet<T>, LINQ queries, ...).
+in JS acts as a haxe Iterable.
+
 #### AbstractMap
 
 in C# acts as a native dictionary<K,V>.
