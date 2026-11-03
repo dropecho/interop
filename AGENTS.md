@@ -30,8 +30,10 @@ data across the JS / C# boundary without bespoke per-target plumbing.
   - `AbstractArray<V>` — an abstract over `Array<V>`; a native array in JS, a `List<T>` in C#.
   - `AbstractIterable<V>` — anything that can be looped over; a Haxe `Iterable<V>` in JS, an
     `IEnumerable<T>` in C#. Haxe iterables are copied into a `List<T>` on C#.
-  - `AbstractMap<K, V>` — a `@:multiType` abstract over `haxe.ds.IMap`; a plain object
-    (keyed by `obj[key]`) in JS, a native `Dictionary<K,V>` in C#.
+  - `AbstractMap<K, V>` — a native `Dictionary<K,V>` in C#. In JS a `@:genericBuild`
+    (`macro/AbstractMapBuilder.hx`) picks a backing from the key type while compiling: a plain
+    object for `String`/number keys or a type parameter, an `EnumValueMap` for enum keys, and a
+    native `Map` for anything else (see `map/`). Elsewhere a `@:multiType` abstract over `haxe.ds.IMap`.
   - `AbstractFunc` — `Action_N` / `Func_N` function abstracts that codegen to C# `Action_X` /
     `Func_X` delegates and stay plain functions in JS.
   - `Extender` — runtime reflection helpers (`extendThis`, `defaults`) for merging structures.
@@ -54,6 +56,8 @@ src/dropecho/interop/        # library source
   AbstractArray.hx           # array abstract (+ AbstractArray.cs.hx)
   AbstractIterable.hx        # iterable abstract (+ AbstractIterable.cs.hx)
   AbstractMap.hx             # map abstract (+ AbstractMap.js.hx / AbstractMap.cs.hx)
+  map/                       # JS backings for AbstractMap, one per key kind (JS only)
+  macro/                     # AbstractMapBuilder: picks the JS backing per key type
   AbstractFunc.hx            # Action_N / Func_N delegates (+ AbstractFunc.cs.hx)
   Extender.hx                # reflection-based merge/defaults helpers
   test/                      # shared fixtures used by the utest cases
