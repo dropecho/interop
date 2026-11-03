@@ -34,6 +34,10 @@ data across the JS / C# boundary without bespoke per-target plumbing.
     (`macro/AbstractMapBuilder.hx`) picks a backing from the key type while compiling: a plain
     object for `String`/number keys or a type parameter, an `EnumValueMap` for enum keys, and a
     native `Map` for anything else (see `map/`). Elsewhere a `@:multiType` abstract over `haxe.ds.IMap`.
+  - `AbstractSet<T>` — a set with an optional key function (`T -> Int`) that decides which
+    items are equal. A native `HashSet<T>` in C#. In JS a `@:genericBuild`
+    (`macro/AbstractSetBuilder.hx`) picks `set/ValueSet` (native `Map`) or, for enum items,
+    `set/EnumSet` (`EnumValueMap`). Elsewhere an array-backed fallback.
   - `AbstractFunc` — `Action_N` / `Func_N` function abstracts that codegen to C# `Action_X` /
     `Func_X` delegates and stay plain functions in JS.
   - `Extender` — runtime reflection helpers (`extendThis`, `defaults`) for merging structures.
@@ -56,8 +60,10 @@ src/dropecho/interop/        # library source
   AbstractArray.hx           # array abstract (+ AbstractArray.cs.hx)
   AbstractIterable.hx        # iterable abstract (+ AbstractIterable.cs.hx)
   AbstractMap.hx             # map abstract (+ AbstractMap.js.hx / AbstractMap.cs.hx)
+  AbstractSet.hx             # set fallback (+ AbstractSet.js.hx / AbstractSet.cs.hx)
   map/                       # JS backings for AbstractMap, one per key kind (JS only)
-  macro/                     # AbstractMapBuilder: picks the JS backing per key type
+  set/                       # JS backings for AbstractSet (JS only)
+  macro/                     # genericBuild macros that pick the JS backings; Backing.hx is shared
   AbstractFunc.hx            # Action_N / Func_N delegates (+ AbstractFunc.cs.hx)
   Extender.hx                # reflection-based merge/defaults helpers
   test/                      # shared fixtures used by the utest cases
@@ -65,6 +71,7 @@ test/interop/                # utest cases, auto-discovered by filename (*Tests.
   AbstractArrayTests.hx
   AbstractIterableTests.hx
   AbstractMapTests.hx
+  AbstractSetTests.hx
   AbstractFuncTests.hx
   ExtenderTests.hx
 lang_tests/                  # hand-written native smoke tests (cs/, js/) run against dist output
