@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/dropecho/interop/compare/0.7.0...0.8.0) (2026-11-03)
+
+
+### Features
+
+* add AbstractIterable, an Iterable in JS and an IEnumerable<T> in C# ([9e025f0](https://github.com/dropecho/interop/commit/9e025f08bf19dc85529a221b70ecca154ab2108e))
+
 # [0.7.0](https://github.com/dropecho/interop/compare/0.6.0...0.7.0) (2026-06-28)
 
 
