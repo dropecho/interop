@@ -1,3 +1,10 @@
+# [0.9.0](https://github.com/dropecho/interop/compare/0.8.1...0.9.0) (2026-11-03)
+
+
+### Features
+
+* add AbstractSet, a set of unique items with an optional key function ([541ec70](https://github.com/dropecho/interop/commit/541ec7044830ac6ab3d361969fe7d937a97a5c44)), closes [#3](https://github.com/dropecho/interop/issues/3)
+
 ## [0.8.1](https://github.com/dropecho/interop/compare/0.8.0...0.8.1) (2026-11-03)
 
 
