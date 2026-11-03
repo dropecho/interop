@@ -28,6 +28,8 @@ data across the JS / C# boundary without bespoke per-target plumbing.
 
 - **Core types** (in `src/dropecho/interop/`):
   - `AbstractArray<V>` — an abstract over `Array<V>`; a native array in JS, a `List<T>` in C#.
+  - `AbstractIterable<V>` — anything that can be looped over; a Haxe `Iterable<V>` in JS, an
+    `IEnumerable<T>` in C#. Haxe iterables are copied into a `List<T>` on C#.
   - `AbstractMap<K, V>` — a `@:multiType` abstract over `haxe.ds.IMap`; a plain object
     (keyed by `obj[key]`) in JS, a native `Dictionary<K,V>` in C#.
   - `AbstractFunc` — `Action_N` / `Func_N` function abstracts that codegen to C# `Action_X` /
@@ -50,12 +52,14 @@ data across the JS / C# boundary without bespoke per-target plumbing.
 ```
 src/dropecho/interop/        # library source
   AbstractArray.hx           # array abstract (+ AbstractArray.cs.hx)
+  AbstractIterable.hx        # iterable abstract (+ AbstractIterable.cs.hx)
   AbstractMap.hx             # map abstract (+ AbstractMap.js.hx / AbstractMap.cs.hx)
   AbstractFunc.hx            # Action_N / Func_N delegates (+ AbstractFunc.cs.hx)
   Extender.hx                # reflection-based merge/defaults helpers
   test/                      # shared fixtures used by the utest cases
 test/interop/                # utest cases, auto-discovered by filename (*Tests.hx)
   AbstractArrayTests.hx
+  AbstractIterableTests.hx
   AbstractMapTests.hx
   AbstractFuncTests.hx
   ExtenderTests.hx
