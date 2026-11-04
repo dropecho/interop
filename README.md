@@ -2,6 +2,8 @@
 
 Mostly for internal use.
 
+API docs: https://dropecho.github.io/interop/ (one reference per target, built with `npm run build:docs`).
+
 This libary contains "abstract" classes that allow easier interop with
 native code for dropecho libraries.
 

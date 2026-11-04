@@ -1,0 +1,19 @@
+# API docs — emit one XML type description per target for dox, which merges them
+# so target-specific files (`*.cs.hx`, `*.js.hx`) are all documented.
+# Run with `npm run build:docs`.
+
+-cp src
+--macro include('', true, null, ['src'])
+-D dce=no
+-D doc-gen
+--no-output
+
+--each
+
+-js artifacts/docs/js.js
+-xml artifacts/docs/js/types.xml
+
+--next
+-D net-ver=40
+-cs artifacts/docs/cs-out
+-xml artifacts/docs/cs/types.xml

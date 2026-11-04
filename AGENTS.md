@@ -99,9 +99,10 @@ Prefer `npm` scripts over invoking Haxe tools directly.
 
 ```bash
 npm install      # → lix download   (fetch the pinned Haxe + libs into the lix cache)
-npm run build    # → npm run clean && haxe build.hxml   (JS cjs + C#)
+npm run build    # → npm run clean && haxe build.hxml   (JS cjs; the C# target is commented out)
 npm test         # → lix dropecho.testing
 npm run clean    # remove dist/ and artifacts/
+npm run build:docs  # regenerate the API docs in docs/js and docs/cs (dox); commit the result
 ```
 
 `npm install` runs `lix download` (via the `prepare` lifecycle script) to materialize the deps
@@ -114,10 +115,10 @@ lix writes its pinned `haxe_libraries/<name>.hxml` — then add a matching `-lib
 - `test.hxml` lists libs/targets only — **no `-main`**. The `dropecho.testing` runner injects
   `--main dropecho.testing.AutoTest` (plus instrument/coverage from `.dropecho.testing.json`),
   then builds and runs the suite on every target in the hxml: **JS (Node)**.
-- A **C#** test run is present but commented out in `test.hxml`. C# is a real build target
-  (`targets/cs.hxml`), but the runner execs the built `.exe` directly, so it needs `mono`
-  registered for `.exe` (Windows, or a `binfmt_misc` mono entry on Linux). Uncomment the C#
-  block where that is set up.
+- A **C#** test run is present but commented out in `test.hxml`, because CI has no `mono`,
+  which `hxcs` and the runner need. Uncomment it to run the C# suite locally with mono
+  installed. The C# build in `build.hxml` is commented out too; build the DLL for
+  `lang_tests/cs` with `haxe -cp src --macro "include('', true, null, ['src'])" -D dce=no targets/cs.hxml`.
 - `lang_tests/` holds hand-written native smoke tests (C# and JS) that exercise the compiled
   `dist/` output directly; they are separate from the `dropecho.testing` suite.
 
