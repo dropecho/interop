@@ -40,6 +40,8 @@ data across the JS / C# boundary without bespoke per-target plumbing.
     `set/EnumSet` (`EnumValueMap`). Elsewhere an array-backed fallback.
   - `AbstractFunc` — `Action_N` / `Func_N` function abstracts that codegen to C# `Action_X` /
     `Func_X` delegates and stay plain functions in JS.
+    In C#, `fromHaxe` wraps the function in an invoker class (`FuncInvoker_N`/`ActionInvoker_N`);
+    `-D dropecho-interop-unboxed` adds raw-C# fast paths that skip boxing for `Int`/`Float`.
   - `Extender` — runtime reflection helpers (`extendThis`, `defaults`) for merging structures.
   - Target-specific implementations live in sibling `*.js.hx` / `*.cs.hx` files selected at
     compile time.

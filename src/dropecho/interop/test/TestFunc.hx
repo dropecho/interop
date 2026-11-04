@@ -46,4 +46,39 @@ class TestFunc<T1, T2, R> {
 	function createFunc2(a:Func_2<T1, T2, R>) {
 		Func2 = a;
 	}
+
+	/**
+	Turns a Haxe function into a delegate and back.
+
+	@return True when the same Haxe function comes back, with no wrapper around it.
+	**/
+	public function func1RoundTripKeepsFunction():Bool {
+		var original:T1->R = (v:T1) -> cast v;
+		var delegate:Func_1<T1, R> = original;
+		var back:T1->R = delegate;
+		return back == original;
+	}
+
+	/**
+	Turns an action into a delegate and back.
+
+	@return True when the same Haxe function comes back, with no wrapper around it.
+	**/
+	public function action1RoundTripKeepsFunction():Bool {
+		var original:T1->Void = (v:T1) -> {};
+		var delegate:Action_1<T1> = original;
+		var back:T1->Void = delegate;
+		return back == original;
+	}
+
+	/**
+	Calls `Func1` after turning it into a Haxe function, as Haxe code taking a plain function would.
+
+	@param p1 Passed to `Func1`.
+	@return What `Func1` returns.
+	**/
+	public function callFunc1AsHaxe(p1:T1):R {
+		var fn:T1->R = Func1;
+		return fn(p1);
+	}
 }
