@@ -9,6 +9,9 @@
   "scripts": {
     "prepare": "lix download",
     "build": "npm run clean && haxe build.hxml",
+    "build:docs": "rm -rf artifacts/docs docs/js docs/cs && haxe targets/docs.hxml && npm run build:docs:js && npm run build:docs:cs",
+    "build:docs:js": "lix dox -i artifacts/docs/js -o docs/js --toplevel-package dropecho.interop -ex \"^dropecho\\\\.interop\\\\.test\" -D source-path https://github.com/dropecho/interop/blob/main/src -D website https://github.com/dropecho/interop --title \"dropecho.interop API (JS)\"",
+    "build:docs:cs": "lix dox -i artifacts/docs/cs -o docs/cs --toplevel-package dropecho.interop -ex \"^dropecho\\\\.interop\\\\.test\" -D source-path https://github.com/dropecho/interop/blob/main/src -D website https://github.com/dropecho/interop --title \"dropecho.interop API (C#)\"",
     "test": "lix dropecho.testing",
     "clean": "rm -rf dist artifacts",
     "test:native": "npm run build && npm run test:native-cs && npm run test:native-js",
