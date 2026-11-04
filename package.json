@@ -14,20 +14,18 @@
     "test:native": "npm run build && npm run test:native-cs && npm run test:native-js",
     "test:native-cs": "npm run test:native-cs:build && npm run test:native-cs:run",
     "test:native-cs:build": "cd lang_tests/cs && mcs -r:../../dist/cs/dropecho.interop/bin/dropecho.interop.dll -recurse:*.cs -out:Main.exe",
-    "test:native-cs:run": "cd lang_tests/cs && ./Main.exe",
+    "test:native-cs:run": "cd lang_tests/cs && mono Main.exe",
     "test:native-js": "npm run test:native-js:run",
     "test:native-js:run": "cd lang_tests/js && node index.cjs"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^6.0.2",
-    "@semantic-release/commit-analyzer": "^9.0.2",
-    "@semantic-release/exec": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^8.0.7",
-    "@semantic-release/npm": "^13.1.5",
-    "@semantic-release/release-notes-generator": "^10.0.3",
+    "@semantic-release/changelog": "^7.0.0",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/git": "^11.0.1",
+    "@semantic-release/github": "^12.0.10",
+    "@semantic-release/release-notes-generator": "^14.1.1",
     "lix": "^16.0.2",
-    "semantic-release": "^25.0.8",
+    "semantic-release": "^25.0.9",
     "semantic-release-haxelib": "^1.1.0"
   }
 }

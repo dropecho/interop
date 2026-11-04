@@ -2,6 +2,8 @@ package dropecho.interop.test;
 
 import haxe.ds.ArraySort;
 
+// Coverage would add code to the empty constructor, which a C# struct can't have.
+@:ignoreInstrument
 @:struct
 @:expose('TestClassConfig')
 class TestClassConfig {
