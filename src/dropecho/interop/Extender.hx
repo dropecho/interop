@@ -1,5 +1,7 @@
 package dropecho.interop;
 
+import haxe.Constraints.IMap;
+
 using StringTools;
 
 // @:expose('Extender')
@@ -61,16 +63,19 @@ class Extender {
 				var bfIsMap = isMap(baseField);
 				var bfIsObject = !bfIsArray && !bfIsMap && isObject(baseField);
 
+				// A null array or map in the extension leaves the base's one as it is.
+				var isMissingCollection = extensionField == null && (bfIsArray || bfIsMap);
+				if (isMissingCollection) {
+					continue;
+				}
+
 				if (bfIsArray) {
 					var copy = AbstractArray.fromAny(extensionField);
 					for (value in copy) {
 						(cast baseField).push(value);
 					}
 				} else if (bfIsMap) {
-					var extensionMap:haxe.Constraints.IMap<Dynamic, Dynamic> = extensionField;
-					for (key => value in extensionMap.keyValueIterator()) {
-						(cast baseField).set(key, value);
-					}
+					mergeMap(baseField, extensionField);
 				} else if (bfIsObject) {
 					defaults(baseField, extensionField);
 				} else {
@@ -83,6 +88,41 @@ class Extender {
 			}
 		}
 		return base;
+	}
+
+	// Copies a map's entries into another map. Either can be a Haxe map or, in JS, a native `Map`;
+	// the extension can also be a plain object, whose fields become string keys.
+	private static function mergeMap(base:Dynamic, extension:Dynamic):Void {
+		#if js
+		if (Std.isOfType(extension, js.lib.Map)) {
+			var nativeMap:js.lib.Map<Dynamic, Dynamic> = extension;
+			nativeMap.forEach((value, key, _) -> setMapEntry(base, key, value));
+			return;
+		}
+		#end
+		if (Std.isOfType(extension, IMap)) {
+			var haxeMap:IMap<Dynamic, Dynamic> = extension;
+			for (key => value in haxeMap.keyValueIterator()) {
+				setMapEntry(base, key, value);
+			}
+			return;
+		}
+		for (field in Reflect.fields(extension)) {
+			setMapEntry(base, field, Reflect.field(extension, field));
+		}
+	}
+
+	// Sets one entry. Calls go through `IMap`, so dead code elimination keeps the map's `set`.
+	private static function setMapEntry(map:Dynamic, key:Dynamic, value:Dynamic):Void {
+		#if js
+		if (Std.isOfType(map, js.lib.Map)) {
+			var nativeMap:js.lib.Map<Dynamic, Dynamic> = map;
+			nativeMap.set(key, value);
+			return;
+		}
+		#end
+		var haxeMap:IMap<Dynamic, Dynamic> = map;
+		haxeMap.set(key, value);
 	}
 
 	// The fields of an object's class, with property accessors (`get_x`, `set_x`) named after their property.

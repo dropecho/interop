@@ -13,7 +13,7 @@ class AbstractSet<T> {
 	/**
 	Creates an empty set.
 
-	@param key Gives the key that identifies an item, such as its index or id. Without one, items compare with `==`.
+	@param key Gives the key that identifies an item, such as its index or id. Without one, items compare with `==`, and enum values by value.
 	**/
 	public function new(?key:Func_1<T, Int>) {
 		this.key = key;
@@ -103,11 +103,22 @@ class AbstractSet<T> {
 
 	function indexOf(item:T):Int {
 		for (index => stored in items) {
-			var isEqual = key == null ? stored == item : key(stored) == key(item);
-			if (isEqual) {
+			if (isSame(stored, item)) {
 				return index;
 			}
 		}
 		return -1;
+	}
+
+	// Enum values compare by value, like the JS and C# versions; everything else with `==`.
+	function isSame(stored:T, item:T):Bool {
+		if (key != null) {
+			return key(stored) == key(item);
+		}
+		var bothEnums = Reflect.isEnumValue(stored) && Reflect.isEnumValue(item);
+		if (bothEnums) {
+			return Type.enumEq(cast stored, cast item);
+		}
+		return stored == item;
 	}
 }

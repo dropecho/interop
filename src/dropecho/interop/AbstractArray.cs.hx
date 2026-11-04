@@ -3,6 +3,7 @@ package dropecho.interop;
 import dropecho.interop.AbstractFunc.Func_1;
 import dropecho.interop.AbstractFunc.Func_2;
 import dropecho.interop.AbstractFunc.Func__2;
+import cs.system.collections.IList;
 import cs.system.collections.generic.List_1 as CSList;
 
 /**
@@ -99,10 +100,27 @@ abstract AbstractArray<V>(CSList<V>) from CSList<V> to CSList<V> {
 		return abs;
 	}
 
-	@:from
-	public static inline function fromAny<V>(d:Any):AbstractArray<Dynamic> {
+	/**
+	Converts an untyped array, such as one read with reflection, to an `AbstractArray`.
+	A `List<object>` is used as it is; any other list, or a Haxe `Array`, is copied.
+	Not an implicit conversion, so a value of the wrong type is a compile error rather than a runtime one.
+
+	@param d The array or list to convert.
+	@return The array.
+	**/
+	public static inline function fromAny(d:Any):AbstractArray<Dynamic> {
 		if (Std.isOfType(d, CSList)) {
 			return new AbstractArray(d);
+		}
+
+		// Any other list, such as a `List<int>`, is copied item by item.
+		if (Std.isOfType(d, IList)) {
+			var list:IList = d;
+			var copy = new AbstractArray<Dynamic>();
+			for (i in 0...list.Count) {
+				copy.push(cs.Syntax.code('{0}[{1}]', list, i));
+			}
+			return copy;
 		}
 
 		var arr = cast(d, Array<Dynamic>);
