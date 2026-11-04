@@ -1,3 +1,10 @@
+## [0.9.3](https://github.com/dropecho/interop/compare/0.9.2...0.9.3) (2026-11-04)
+
+
+### Bug Fixes
+
+* correctness fixes across Extender, AbstractMap, AbstractSet and AbstractArray ([b495023](https://github.com/dropecho/interop/commit/b49502300f84c993aabe37ae43772f83e08f9a04))
+
 ## [0.9.2](https://github.com/dropecho/interop/compare/0.9.1...0.9.2) (2026-11-04)
 
 
