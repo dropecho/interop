@@ -165,9 +165,24 @@ abstract AbstractMap<K, V>(IDictionary_2<K, V>) from IDictionary_2<K, V> to IDic
 		this.Clear();
 	}
 
+	/**
+	Gets the value stored for a key.
+
+	@param key The key to look up.
+	@return The value, or `null` when the key has no entry, as on every other target.
+	**/
 	@:arrayAccess
-	public inline function get(key:K):V {
-		return getOrThrow(this, key);
+	public inline function get(key:K):Null<V> {
+		return getOrNull(this, key);
+	}
+
+	/**
+	Makes a shallow copy with its own storage. A `Dictionary` keeps its key comparer.
+
+	@return The new map.
+	**/
+	public inline function copy():AbstractMap<K, V> {
+		return copyOf(this);
 	}
 
 	@:arrayAccess
@@ -177,21 +192,28 @@ abstract AbstractMap<K, V>(IDictionary_2<K, V>) from IDictionary_2<K, V> to IDic
 	}
 
 	// One lookup instead of ContainsKey followed by the indexer. Raw C#, since Haxe would wrap the out argument in a cast.
-	static function getOrThrow<K, V>(map:IDictionary_2<K, V>, key:K):V {
+	static function getOrNull<K, V>(map:IDictionary_2<K, V>, key:K):Null<V> {
 		var value:V = cast null;
 		var found:Bool = cs.Syntax.code('{0}.TryGetValue({1}, out {2})', map, key, value);
 		if (!found) {
-			throw 'No key $key found in dictionary, try using .exists(key) to check first.';
+			return null;
 		}
 		return value;
 	}
 
-	@:from // TODO: Figure out why this is broken, fails on runtime cs stuff.
+	// Raw C#, so a Dictionary's comparer can be passed to the copy.
+	static function copyOf<K, V>(map:IDictionary_2<K, V>):IDictionary_2<K, V> {
+		return cs.Syntax.code('({0} is global::System.Collections.Generic.Dictionary<K, V>)
+			? new global::System.Collections.Generic.Dictionary<K, V>({0}, ((global::System.Collections.Generic.Dictionary<K, V>) {0}).Comparer)
+			: new global::System.Collections.Generic.Dictionary<K, V>({0})', map);
+	}
+
+	@:from
 	public static inline function fromMap<K, V>(map:Map<K, V>):AbstractMap<K, V> {
 		return fromIMap(cast map);
 	}
 
-	@:from // TODO: Figure out why this is broken, fails on runtime cs stuff.
+	@:from
 	public static inline function fromIMap<K, V>(map:IMap<K, V>):AbstractMap<K, V> {
 		var abs = new AbstractMap<K, V>();
 		for (k => v in map.keyValueIterator()) {

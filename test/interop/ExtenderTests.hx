@@ -2,6 +2,7 @@ package interop;
 
 import utest.Assert;
 import utest.Test;
+import dropecho.interop.AbstractMap;
 import dropecho.interop.Extender;
 
 class ExClassTest {
@@ -217,4 +218,41 @@ class ExtenderTests extends Test {
 			}
 		}
 	}
+
+	public function test_extender_should_keep_base_array_when_extension_array_is_null() {
+		var target = {items: [1, 2]};
+		Extender.defaults(target, {items: null});
+		Assert.same([1, 2], target.items);
+	}
+
+	public function test_extender_should_keep_base_map_when_extension_map_is_null() {
+		var target = {lookup: ["a" => 1]};
+		Extender.defaults(target, {lookup: null});
+		Assert.equals(1, target.lookup.get("a"));
+	}
+
+	public function test_extender_should_merge_map_into_map() {
+		var target = {lookup: ["a" => 1]};
+		Extender.defaults(target, {lookup: ["b" => 2]});
+		Assert.equals(1, target.lookup.get("a"));
+		Assert.equals(2, target.lookup.get("b"));
+	}
+
+	public function test_extender_should_merge_plain_object_into_map() {
+		var target = {lookup: ["a" => 1]};
+		Extender.defaults(target, {lookup: {b: 2}});
+		Assert.equals(1, target.lookup.get("a"));
+		Assert.equals(2, target.lookup.get("b"));
+	}
+
+	#if js
+	public function test_extender_should_merge_object_keyed_maps() {
+		var key = {id: 1};
+		var target = {cells: new AbstractMap<{id:Int}, Int>()};
+		var extension = {cells: new AbstractMap<{id:Int}, Int>()};
+		extension.cells.set(key, 5);
+		Extender.defaults(target, extension);
+		Assert.equals(5, target.cells.get(key));
+	}
+	#end
 }

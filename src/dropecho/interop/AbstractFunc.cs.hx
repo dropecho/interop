@@ -49,7 +49,10 @@ abstract Action_0(Action__0) from Action__0 {
 	}
 
 	@:to public inline function toAction():Void->Void {
-		var invoker = this == null ? null : cs.Lib.as(this.Target, HaxeInvoker);
+		if (this == null) {
+			return null;
+		}
+		var invoker = cs.Lib.as(this.Target, HaxeInvoker);
 		return invoker == null ? call : cast invoker.haxeFunction();
 	}
 
@@ -69,7 +72,10 @@ abstract Action_1<T1>(Action__1<T1>) from Action__1<T1> {
 	}
 
 	@:to public inline function toAction():T1->Void {
-		var invoker = this == null ? null : cs.Lib.as(this.Target, HaxeInvoker);
+		if (this == null) {
+			return null;
+		}
+		var invoker = cs.Lib.as(this.Target, HaxeInvoker);
 		return invoker == null ? call : cast invoker.haxeFunction();
 	}
 
@@ -89,7 +95,10 @@ abstract Action_2<T1, T2>(Action__2<T1, T2>) from Action__2<T1, T2> {
 	}
 
 	@:to public inline function toAction():(T1, T2) -> Void {
-		var invoker = this == null ? null : cs.Lib.as(this.Target, HaxeInvoker);
+		if (this == null) {
+			return null;
+		}
+		var invoker = cs.Lib.as(this.Target, HaxeInvoker);
 		return invoker == null ? call : cast invoker.haxeFunction();
 	}
 
@@ -109,7 +118,10 @@ abstract Func_0<R>(Func__0<R>) from Func__0<R> {
 	}
 
 	@:to public inline function toFunc():Void->R {
-		var invoker = this == null ? null : cs.Lib.as(this.Target, HaxeInvoker);
+		if (this == null) {
+			return null;
+		}
+		var invoker = cs.Lib.as(this.Target, HaxeInvoker);
 		return invoker == null ? call : cast invoker.haxeFunction();
 	}
 
@@ -129,7 +141,10 @@ abstract Func_1<T1, R>(Func__1<T1, R>) from Func__1<T1, R> {
 	}
 
 	@:to public inline function toFunc():T1->R {
-		var invoker = this == null ? null : cs.Lib.as(this.Target, HaxeInvoker);
+		if (this == null) {
+			return null;
+		}
+		var invoker = cs.Lib.as(this.Target, HaxeInvoker);
 		return invoker == null ? call : cast invoker.haxeFunction();
 	}
 
@@ -149,7 +164,10 @@ abstract Func_2<T1, T2, R>(Func__2<T1, T2, R>) from Func__2<T1, T2, R> {
 	}
 
 	@:to public inline function toFunc():(T1, T2) -> R {
-		var invoker = this == null ? null : cs.Lib.as(this.Target, HaxeInvoker);
+		if (this == null) {
+			return null;
+		}
+		var invoker = cs.Lib.as(this.Target, HaxeInvoker);
 		return invoker == null ? call : cast invoker.haxeFunction();
 	}
 

@@ -29,6 +29,15 @@ abstract AbstractMap<K, V>(IMap<K, V>) {
 		this.clear();
 	}
 
+	/**
+	Makes a shallow copy with its own storage.
+
+	@return The new map, still an `AbstractMap`.
+	**/
+	public inline function copy():AbstractMap<K, V> {
+		return cast this.copy();
+	}
+
 	@:to static inline function toStringMap<K:String, V>(t:IMap<K, V>):StringMap<V> {
 		return new StringMap<V>();
 	}
