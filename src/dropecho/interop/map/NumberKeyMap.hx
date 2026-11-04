@@ -2,8 +2,8 @@ package dropecho.interop.map;
 
 #if js
 import haxe.Constraints.IMap;
+import dropecho.interop.map.ObjectIterators;
 import haxe.DynamicAccess;
-import haxe.iterators.DynamicAccessIterator;
 
 /**
 The JS backing of `AbstractMap` for `Int` and `Float` keys.
@@ -58,9 +58,8 @@ abstract NumberKeyMap<K, V>(StringKeyMap<K, V>) {
 
 	@return An iterator over the keys.
 	**/
-	public inline function keys():Iterator<K> {
-		var object:DynamicAccess<V> = this;
-		return [for (name in object.keys()) toKey(name)].iterator();
+	public inline function keys():NumberKeyIterator<K> {
+		return new NumberKeyIterator(cast this);
 	}
 
 	/**
@@ -68,7 +67,7 @@ abstract NumberKeyMap<K, V>(StringKeyMap<K, V>) {
 
 	@return An iterator over the values.
 	**/
-	public inline function iterator():DynamicAccessIterator<V> {
+	public inline function iterator():ObjectValueIterator<V> {
 		return this.iterator();
 	}
 
@@ -77,9 +76,8 @@ abstract NumberKeyMap<K, V>(StringKeyMap<K, V>) {
 
 	@return An iterator over the entries.
 	**/
-	public inline function keyValueIterator():KeyValueIterator<K, V> {
-		var object:DynamicAccess<V> = this;
-		return [for (name => value in object) {key: toKey(name), value: value}].iterator();
+	public inline function keyValueIterator():NumberKeyValueIterator<K, V> {
+		return new NumberKeyValueIterator(this);
 	}
 
 	/**
@@ -127,10 +125,6 @@ abstract NumberKeyMap<K, V>(StringKeyMap<K, V>) {
 	@:to
 	public inline function toObject():DynamicAccess<V> {
 		return this;
-	}
-
-	static inline function toKey<K>(name:String):K {
-		return cast Std.parseFloat(name);
 	}
 }
 #end

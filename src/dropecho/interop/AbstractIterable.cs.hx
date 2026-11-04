@@ -16,7 +16,7 @@ class CSEnumeratorIterator<V> {
 
 	@param enumerator The enumerator to read from.
 	**/
-	public function new(enumerator:IEnumerator_1<V>) {
+	public inline function new(enumerator:IEnumerator_1<V>) {
 		this.enumerator = enumerator;
 		peeked = false;
 		hasCurrent = false;
@@ -27,7 +27,7 @@ class CSEnumeratorIterator<V> {
 
 	@return True if `next` will return an item.
 	**/
-	public function hasNext():Bool {
+	public inline function hasNext():Bool {
 		// MoveNext advances, so remember the answer until next() consumes it.
 		if (!peeked) {
 			hasCurrent = enumerator.MoveNext();
@@ -41,7 +41,7 @@ class CSEnumeratorIterator<V> {
 
 	@return The next item in the sequence.
 	**/
-	public function next():V {
+	public inline function next():V {
 		if (!peeked) {
 			enumerator.MoveNext();
 		}

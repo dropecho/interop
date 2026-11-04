@@ -150,6 +150,22 @@ class AbstractMapTests extends utest.Test {
 		Assert.equals(2, [for (key in m.keys()) key].length);
 	}
 
+	public function test_haxe_internal_names_are_ordinary_keys() {
+		var m = new AbstractMap<String, Int>();
+		m["__id__"] = 1;
+		m["hx__closures__"] = 2;
+
+		var keys = [for (key in m.keys()) key];
+		keys.sort(Reflect.compare);
+		Assert.same(["__id__", "hx__closures__"], keys);
+		var sum = 0;
+		for (value in m) {
+			sum += value;
+		}
+		Assert.equals(3, sum);
+		Assert.equals(2, [for (key in m.copy().keys()) key].length);
+	}
+
 	public function test_int_keys_come_back_as_ints() {
 		var m = new AbstractMap<Int, String>();
 		m[1] = "a";
