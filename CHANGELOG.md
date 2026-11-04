@@ -1,3 +1,10 @@
+## [0.9.2](https://github.com/dropecho/interop/compare/0.9.1...0.9.2) (2026-11-04)
+
+
+### Performance Improvements
+
+* faster iteration and lookups in AbstractArray and AbstractMap ([d1d8975](https://github.com/dropecho/interop/commit/d1d89756bc94ada300b9102e95e694a08cea1657))
+
 ## [0.9.1](https://github.com/dropecho/interop/compare/0.9.0...0.9.1) (2026-11-04)
 
 
