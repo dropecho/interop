@@ -1,3 +1,12 @@
+## [0.9.1](https://github.com/dropecho/interop/compare/0.9.0...0.9.1) (2026-11-04)
+
+
+### Performance Improvements
+
+* add -D dropecho-interop-unboxed to skip boxing numbers in C# calls ([ad6c1ff](https://github.com/dropecho/interop/commit/ad6c1fff32429e7ba9586565d65d442b81f0a23e))
+* call Haxe functions through typed invokers in C# AbstractFunc ([d476a99](https://github.com/dropecho/interop/commit/d476a9976195c30020124c25fdbd470a7076839c))
+* return the original Haxe function when converting a delegate back ([cacde55](https://github.com/dropecho/interop/commit/cacde55f5a4ac01a9a27ea6bb501103b90c4fc4b))
+
 # [0.9.0](https://github.com/dropecho/interop/compare/0.8.1...0.9.0) (2026-11-03)
 
 
