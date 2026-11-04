@@ -29,15 +29,6 @@ class CSListIterator<V> {
 	}
 }
 
-@:native('System.Comparison') extern class Comparison<V> {}
-
-abstract Comparison_Impl<V>(Comparison<V>) from Comparison<V> to Comparison<V> {
-	@:from
-	public static inline function fromHaxe<V>(f:(V, V) -> Int):Comparison_Impl<V> {
-		return cs.Syntax.code('(a,b) => (int){0}.__hx_invokeDynamic(new object[]{a,b})', f);
-	}
-}
-
 @:dce
 @:nativeGen
 abstract AbstractArray<V>(CSList<V>) from CSList<V> to CSList<V> {
