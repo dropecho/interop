@@ -2,28 +2,40 @@ package dropecho.interop;
 
 @:native("System.Action")
 extern class Action__0 {
+	public var Target(default, never):Dynamic;
+
 	public function Invoke():Void;
 }
 
 @:native("System.Action")
 extern class Action__1<T1> {
+	public var Target(default, never):Dynamic;
+
 	public function Invoke(p1:T1):Void;
 }
 
 @:native("System.Action")
 extern class Action__2<T1, T2> {
+	public var Target(default, never):Dynamic;
+
 	public function Invoke(p1:T1, p2:T2):Void;
 }
 
 @:native('System.Func') extern class Func__0<R> {
+	public var Target(default, never):Dynamic;
+
 	public function Invoke():R;
 }
 
 @:native('System.Func') extern class Func__1<T1, R> {
+	public var Target(default, never):Dynamic;
+
 	public function Invoke(p1:T1):R;
 }
 
 @:native('System.Func') extern class Func__2<T1, T2, R> {
+	public var Target(default, never):Dynamic;
+
 	public function Invoke(p1:T1, p2:T2):R;
 }
 
@@ -37,7 +49,8 @@ abstract Action_0(Action__0) from Action__0 {
 	}
 
 	@:to public inline function toAction():Void->Void {
-		return call;
+		var invoker = this == null ? null : cs.Lib.as(this.Target, HaxeInvoker);
+		return invoker == null ? call : cast invoker.haxeFunction();
 	}
 
 	@:op(a())
@@ -56,7 +69,8 @@ abstract Action_1<T1>(Action__1<T1>) from Action__1<T1> {
 	}
 
 	@:to public inline function toAction():T1->Void {
-		return call;
+		var invoker = this == null ? null : cs.Lib.as(this.Target, HaxeInvoker);
+		return invoker == null ? call : cast invoker.haxeFunction();
 	}
 
 	@:op(a())
@@ -75,7 +89,8 @@ abstract Action_2<T1, T2>(Action__2<T1, T2>) from Action__2<T1, T2> {
 	}
 
 	@:to public inline function toAction():(T1, T2) -> Void {
-		return call;
+		var invoker = this == null ? null : cs.Lib.as(this.Target, HaxeInvoker);
+		return invoker == null ? call : cast invoker.haxeFunction();
 	}
 
 	@:op(a())
@@ -94,7 +109,8 @@ abstract Func_0<R>(Func__0<R>) from Func__0<R> {
 	}
 
 	@:to public inline function toFunc():Void->R {
-		return call;
+		var invoker = this == null ? null : cs.Lib.as(this.Target, HaxeInvoker);
+		return invoker == null ? call : cast invoker.haxeFunction();
 	}
 
 	@:op(a())
@@ -113,7 +129,8 @@ abstract Func_1<T1, R>(Func__1<T1, R>) from Func__1<T1, R> {
 	}
 
 	@:to public inline function toFunc():T1->R {
-		return call;
+		var invoker = this == null ? null : cs.Lib.as(this.Target, HaxeInvoker);
+		return invoker == null ? call : cast invoker.haxeFunction();
 	}
 
 	@:op(a())
@@ -132,7 +149,8 @@ abstract Func_2<T1, T2, R>(Func__2<T1, T2, R>) from Func__2<T1, T2, R> {
 	}
 
 	@:to public inline function toFunc():(T1, T2) -> R {
-		return call;
+		var invoker = this == null ? null : cs.Lib.as(this.Target, HaxeInvoker);
+		return invoker == null ? call : cast invoker.haxeFunction();
 	}
 
 	@:op(a())
@@ -142,12 +160,26 @@ abstract Func_2<T1, T2, R>(Func__2<T1, T2, R>) from Func__2<T1, T2, R> {
 }
 
 /**
+Implemented by every invoker, so `toFunc` and `toAction` can find the Haxe function behind a delegate made by `fromHaxe`.
+**/
+@:nativeGen
+@:noCompletion
+interface HaxeInvoker {
+	/**
+	Gives back the wrapped function.
+
+	@return The Haxe function the invoker calls.
+	**/
+	function haxeFunction():Dynamic;
+}
+
+/**
 Holds a Haxe function so `fromHaxe` can turn it into a delegate.
 Calling through it avoids an argument array, reflection and `dynamic` on every call.
 **/
 @:nativeGen
 @:noCompletion
-class ActionInvoker_0 {
+class ActionInvoker_0 implements HaxeInvoker {
 	final f:Void->Void;
 
 	/**
@@ -165,6 +197,15 @@ class ActionInvoker_0 {
 	public function invoke():Void {
 		f();
 	}
+
+	/**
+	Gives back the wrapped function, so turning the delegate back into a Haxe function needs no new wrapper.
+
+	@return The Haxe function this invoker calls.
+	**/
+	public function haxeFunction():Dynamic {
+		return f;
+	}
 }
 
 /**
@@ -173,7 +214,7 @@ Calling through it avoids an argument array, reflection and `dynamic` on every c
 **/
 @:nativeGen
 @:noCompletion
-class ActionInvoker_1<T1> {
+class ActionInvoker_1<T1> implements HaxeInvoker {
 	final f:T1->Void;
 
 	/**
@@ -193,6 +234,15 @@ class ActionInvoker_1<T1> {
 	public function invoke(p1:T1):Void {
 		f(p1);
 	}
+
+	/**
+	Gives back the wrapped function, so turning the delegate back into a Haxe function needs no new wrapper.
+
+	@return The Haxe function this invoker calls.
+	**/
+	public function haxeFunction():Dynamic {
+		return f;
+	}
 }
 
 /**
@@ -201,7 +251,7 @@ Calling through it avoids an argument array, reflection and `dynamic` on every c
 **/
 @:nativeGen
 @:noCompletion
-class ActionInvoker_2<T1, T2> {
+class ActionInvoker_2<T1, T2> implements HaxeInvoker {
 	final f:(T1, T2)->Void;
 
 	/**
@@ -222,6 +272,15 @@ class ActionInvoker_2<T1, T2> {
 	public function invoke(p1:T1, p2:T2):Void {
 		f(p1, p2);
 	}
+
+	/**
+	Gives back the wrapped function, so turning the delegate back into a Haxe function needs no new wrapper.
+
+	@return The Haxe function this invoker calls.
+	**/
+	public function haxeFunction():Dynamic {
+		return f;
+	}
 }
 
 /**
@@ -230,7 +289,7 @@ Calling through it avoids an argument array, reflection and `dynamic` on every c
 **/
 @:nativeGen
 @:noCompletion
-class FuncInvoker_0<R> {
+class FuncInvoker_0<R> implements HaxeInvoker {
 	final f:Void->R;
 
 	/**
@@ -250,6 +309,15 @@ class FuncInvoker_0<R> {
 	public function invoke():R {
 		return f();
 	}
+
+	/**
+	Gives back the wrapped function, so turning the delegate back into a Haxe function needs no new wrapper.
+
+	@return The Haxe function this invoker calls.
+	**/
+	public function haxeFunction():Dynamic {
+		return f;
+	}
 }
 
 /**
@@ -258,7 +326,7 @@ Calling through it avoids an argument array, reflection and `dynamic` on every c
 **/
 @:nativeGen
 @:noCompletion
-class FuncInvoker_1<T1, R> {
+class FuncInvoker_1<T1, R> implements HaxeInvoker {
 	final f:T1->R;
 
 	/**
@@ -279,6 +347,15 @@ class FuncInvoker_1<T1, R> {
 	public function invoke(p1:T1):R {
 		return f(p1);
 	}
+
+	/**
+	Gives back the wrapped function, so turning the delegate back into a Haxe function needs no new wrapper.
+
+	@return The Haxe function this invoker calls.
+	**/
+	public function haxeFunction():Dynamic {
+		return f;
+	}
 }
 
 /**
@@ -287,7 +364,7 @@ Calling through it avoids an argument array, reflection and `dynamic` on every c
 **/
 @:nativeGen
 @:noCompletion
-class FuncInvoker_2<T1, T2, R> {
+class FuncInvoker_2<T1, T2, R> implements HaxeInvoker {
 	final f:(T1, T2)->R;
 
 	/**
@@ -308,5 +385,14 @@ class FuncInvoker_2<T1, T2, R> {
 	**/
 	public function invoke(p1:T1, p2:T2):R {
 		return f(p1, p2);
+	}
+
+	/**
+	Gives back the wrapped function, so turning the delegate back into a Haxe function needs no new wrapper.
+
+	@return The Haxe function this invoker calls.
+	**/
+	public function haxeFunction():Dynamic {
+		return f;
 	}
 }
