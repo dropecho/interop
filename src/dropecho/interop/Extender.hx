@@ -1,6 +1,5 @@
 package dropecho.interop;
 
-using Lambda;
 using StringTools;
 
 // @:expose('Extender')
@@ -32,30 +31,25 @@ class Extender {
 			extensions.push(extension);
 		}
 
+		// The base's fields don't change between extensions, so look them up once.
+		var baseClass = Type.getClass(base);
+		var baseFields = new Map<String, Bool>();
+		if (baseClass != null) {
+			for (field in Type.getInstanceFields(baseClass)) {
+				baseFields.set(field, true);
+			}
+		}
+
 		for (extension in extensions) {
 			var fields = Reflect.fields(extension);
-			var exType = Type.getClass(extension);
-			var typeFields = exType != null ? Type.getInstanceFields(exType).map(f -> {
-				if (f.startsWith("get_") || f.startsWith("set_")) {
-					var parts = f.split('_');
-					parts.shift();
-					return parts.join('_');
-				}
-				return f;
-			}) : [];
-			fields = fields.length == 0 ? typeFields : fields;
-
-			var baseFields = new Array<String>();
-			var baseClass = Type.getClass(base);
-
-			if (baseClass != null) {
-				baseFields = Type.getInstanceFields(baseClass);
+			if (fields.length == 0) {
+				fields = typeFieldsOf(extension);
 			}
 
 			for (field in fields) {
 				#if cs
 				// If base is strong typed, and does not have field, skip it for C#.
-				if (baseClass != null && baseFields.find(f -> f == field) == null) {
+				if (baseClass != null && !baseFields.exists(field)) {
 					continue;
 				}
 				#end
@@ -89,6 +83,23 @@ class Extender {
 			}
 		}
 		return base;
+	}
+
+	// The fields of an object's class, with property accessors (`get_x`, `set_x`) named after their property.
+	private static function typeFieldsOf(object:Any):Array<String> {
+		var type = Type.getClass(object);
+		if (type == null) {
+			return [];
+		}
+		return Type.getInstanceFields(type).map(f -> {
+			var isAccessor = f.startsWith("get_") || f.startsWith("set_");
+			if (isAccessor) {
+				var parts = f.split('_');
+				parts.shift();
+				return parts.join('_');
+			}
+			return f;
+		});
 	}
 
 	private static function isObject(obj):Bool {

@@ -3,29 +3,42 @@ package dropecho.interop;
 import dropecho.interop.AbstractFunc.Func_1;
 import dropecho.interop.AbstractFunc.Func_2;
 import dropecho.interop.AbstractFunc.Func__2;
-import cs.system.collections.IEnumerator;
 import cs.system.collections.generic.List_1 as CSList;
 
+/**
+Iterates a `List<T>` by index, so value types aren't boxed.
+Its methods are inline, so a `for` loop over it compiles to a plain indexed loop.
+**/
 @:nativeGen
 class CSListIterator<V> {
-	var v:IEnumerator;
-	var c:Int;
-	var i:Int;
+	final list:CSList<V>;
+	var index = 0;
 
-	public function new(list:CSList<V>) {
-		i = 0;
-		c = list.Count;
-		v = list.GetEnumerator();
+	/**
+	Starts iterating a list.
+
+	@param list The list to read.
+	**/
+	public inline function new(list:CSList<V>) {
+		this.list = list;
 	}
 
-	public function hasNext():Bool {
-		return i < c;
+	/**
+	Checks whether another item is available.
+
+	@return True if `next` will return an item.
+	**/
+	public inline function hasNext():Bool {
+		return index < list.Count;
 	}
 
-	public function next():V {
-		i++;
-		v.MoveNext();
-		return v.Current;
+	/**
+	Returns the next item.
+
+	@return The next item.
+	**/
+	public inline function next():V {
+		return list.get_Item(index++);
 	}
 }
 

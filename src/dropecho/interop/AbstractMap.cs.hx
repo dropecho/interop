@@ -3,77 +3,130 @@ package dropecho.interop;
 import haxe.Constraints;
 import cs.system.collections.generic.IDictionary_2;
 import cs.system.collections.generic.Dictionary_2;
-import cs.system.collections.IEnumerator;
+import cs.system.collections.generic.IEnumerator_1;
+import cs.system.collections.generic.KeyValuePair_2;
 
+/**
+Iterates a dictionary's values with a typed enumerator, so value types aren't boxed.
+Its methods are inline, so a `for` loop over it compiles to a plain loop.
+**/
 @:nativeGen
 class CSDictValueIterator<K, V> {
-	var v:IEnumerator;
-	var c:Int;
-	var i:Int;
+	final values:IEnumerator_1<V>;
+	final count:Int;
+	var index = 0;
 
-	public function new(map:IDictionary_2<K, V>) {
-		i = 0;
-		c = map.Values.Count;
-		v = map.Values.GetEnumerator();
+	/**
+	Starts iterating a dictionary's values.
+
+	@param map The dictionary to read.
+	**/
+	public inline function new(map:IDictionary_2<K, V>) {
+		count = map.Count;
+		values = cs.Syntax.code('{0}.Values.GetEnumerator()', map);
 	}
 
-	public function hasNext():Bool {
-		return i < c;
+	/**
+	Checks whether another value is available.
+
+	@return True if `next` will return a value.
+	**/
+	public inline function hasNext():Bool {
+		return index < count;
 	}
 
-	public function next():V {
-		i++;
-		v.MoveNext();
-		return v.Current;
+	/**
+	Returns the next value.
+
+	@return The next value.
+	**/
+	public inline function next():V {
+		index++;
+		values.MoveNext();
+		return values.Current;
 	}
 }
 
+/**
+Iterates a dictionary's keys with a typed enumerator, so value types aren't boxed.
+Its methods are inline, so a `for` loop over it compiles to a plain loop.
+**/
 @:nativeGen
 class CSDictKeyIterator<K, V> {
-	var k:IEnumerator;
-	var c:Int;
-	var i:Int;
+	final keys:IEnumerator_1<K>;
+	final count:Int;
+	var index = 0;
 
-	public function new(map:IDictionary_2<K, V>) {
-		i = 0;
-		c = map.Keys.Count;
-		k = map.Keys.GetEnumerator();
+	/**
+	Starts iterating a dictionary's keys.
+
+	@param map The dictionary to read.
+	**/
+	public inline function new(map:IDictionary_2<K, V>) {
+		count = map.Count;
+		keys = cs.Syntax.code('{0}.Keys.GetEnumerator()', map);
 	}
 
-	public function hasNext():Bool {
-		return i < c;
+	/**
+	Checks whether another key is available.
+
+	@return True if `next` will return a key.
+	**/
+	public inline function hasNext():Bool {
+		return index < count;
 	}
 
-	public function next():K {
-		i++;
-		k.MoveNext();
-		return k.Current;
+	/**
+	Returns the next key.
+
+	@return The next key.
+	**/
+	public inline function next():K {
+		index++;
+		keys.MoveNext();
+		return keys.Current;
 	}
 }
 
+/**
+Iterates a dictionary's entries in one pass over its `KeyValuePair`s.
+Its methods are inline, so a `for (key => value in map)` loop compiles to a plain loop without building an object per entry.
+**/
 @:nativeGen
 class CSDictKeyValueIterator<K, V> {
-	var k:IEnumerator;
-	var v:IEnumerator;
-	var c:Int;
-	var i:Int;
+	final entries:IEnumerator_1<KeyValuePair_2<K, V>>;
+	final count:Int;
+	var index = 0;
 
-	public function new(map:IDictionary_2<K, V>) {
-		i = 0;
-		c = map.Keys.Count;
-		k = map.Keys.GetEnumerator();
-		v = map.Values.GetEnumerator();
+	/**
+	Starts iterating a dictionary's entries.
+
+	@param map The dictionary to read.
+	**/
+	public inline function new(map:IDictionary_2<K, V>) {
+		count = map.Count;
+		entries = cs.Syntax.code('{0}.GetEnumerator()', map);
 	}
 
-	public function hasNext():Bool {
-		return i < c;
+	/**
+	Checks whether another entry is available.
+
+	@return True if `next` will return an entry.
+	**/
+	public inline function hasNext():Bool {
+		return index < count;
 	}
 
-	public function next():{key:K, value:V} {
-		i++;
-		k.MoveNext();
-		v.MoveNext();
-		return {key: k.Current, value: cast(v.Current)};
+	/**
+	Returns the next entry.
+
+	@return The next key and its value.
+	**/
+	public inline function next():{key:K, value:V} {
+		index++;
+		entries.MoveNext();
+		var entry = entries.Current;
+		return {key: entry.Key, value: entry.Value};
 	}
 }
 
@@ -105,9 +158,7 @@ abstract AbstractMap<K, V>(IDictionary_2<K, V>) from IDictionary_2<K, V> to IDic
 	}
 
 	public inline function remove(key:K):Bool {
-		var exists = exists(key);
-		this.Remove(key);
-		return exists;
+		return this.Remove(key);
 	}
 
 	public inline function clear():Void {
@@ -116,15 +167,22 @@ abstract AbstractMap<K, V>(IDictionary_2<K, V>) from IDictionary_2<K, V> to IDic
 
 	@:arrayAccess
 	public inline function get(key:K):V {
-		if (!this.ContainsKey(key)) {
-			throw 'No key $key found in dictionary, try using .exists(key) to check first.';
-		}
-		return this.get_Item(key);
+		return getOrThrow(this, key);
 	}
 
 	@:arrayAccess
 	public inline function set(key:K, value:V):V {
 		this.set_Item(key, value);
+		return value;
+	}
+
+	// One lookup instead of ContainsKey followed by the indexer. Raw C#, since Haxe would wrap the out argument in a cast.
+	static function getOrThrow<K, V>(map:IDictionary_2<K, V>, key:K):V {
+		var value:V = cast null;
+		var found:Bool = cs.Syntax.code('{0}.TryGetValue({1}, out {2})', map, key, value);
+		if (!found) {
+			throw 'No key $key found in dictionary, try using .exists(key) to check first.';
+		}
 		return value;
 	}
 
