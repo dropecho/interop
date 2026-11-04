@@ -22,6 +22,9 @@ public static class FuncTests {
 
     CanCreateFromFunc2();
     CanReturnFunc2FromHaxe();
+
+    CanReturnStringFunc1FromHaxe();
+    CanReturnDoubleFunc2FromHaxe();
   }
 
   static void TypesAreSame() {
@@ -126,5 +129,15 @@ public static class FuncTests {
 
     Assert.areEqual(testFunc.Func2.GetType(), typeof(Func<int,int,int>));
     Assert.areEqual(output, val);
+  }
+
+  static void CanReturnStringFunc1FromHaxe() {
+    var testFunc = new TestFunc<string, string, string>();
+    Assert.areEqual(testFunc.Func1("abc"), "abc");
+  }
+
+  static void CanReturnDoubleFunc2FromHaxe() {
+    var testFunc = new TestFunc<int, double, double>();
+    Assert.areEqual(testFunc.Func2(1, 2.5), 2.5);
   }
 }
