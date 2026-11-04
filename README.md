@@ -52,3 +52,7 @@ in JS is a small wrapper, picked while compiling from the item type:
 #### AbstractFunc
 in C# will convert to action_X or func_X where X is # of inputs/type params.
 in JS is a function.
+
+In C#, a Haxe function passed as a `Func_N`/`Action_N` becomes a delegate that calls it with typed arguments. Turning that delegate back into a Haxe function gives back the original function.
+
+Add `-D dropecho-interop-unboxed` to also pass `Int`/`Float` arguments and results without boxing, which makes numeric calls about 2–5x faster. It relies on internals of the Haxe C# target, so it's off by default.
