@@ -23,10 +23,10 @@
 -D js-es=6
 -js artifacts/js_test.cjs
 
-# C# — commented out: cs is a real build target (targets/cs.hxml), but the
-# dropecho.testing runner execs the .exe directly, which needs mono registered
-# for .exe (Windows, or a binfmt_misc mono entry on Linux). Uncomment where set up.
+# C# — commented out because CI has no mono, which hxcs and the runner need.
+# Uncomment to run it locally with mono installed.
 # --next
+# -D net-ver=40
 # -cs artifacts/cs_test/
 
 # Python — commented out: not a build target for this lib (no targets/python.hxml).
